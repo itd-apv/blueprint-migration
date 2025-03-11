@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="0fa7a18b-891b-4f7e-976c-cd270decd23d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/INSTALL.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/bin/ant" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/bin/ant.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/000xog_xog_section/0001_xogsection_lookups_Z_ITD_DELTA_UNITS_COST_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/000xog_xog_section/0002_xogsection_lookups_Z_ITD_TXN_RES_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/000xog_xog_section/0003_xogsection_lookups_Z_ITD_TXN_TSK_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/000xog_xog_section/0004_xogsection_instances_project_PRJII01_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/000xog_xog_section/0005_xogsection_instances_project_PRJII02_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/000xog_xog_section/0006_xogsection_fields_z_itd_intfc_actuals-raw_fields_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/000xog_xog_section/0007_xogsection_instances_z_itd_intfc_srctostg-actuals_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/000xog_xog_section/0008_xogsection_instances_z_itd_intfc_stgtotgt-actuals_default_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/000xog_xog_section/0009_xogsection_processes_z_ii_actuals_import_srctostg_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/000xog_xog_section/0010_xogsection_processes_z_ii_actuals_validate_xform_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/000xog_xog_section/0011_xogsection_processes_z_ii_actuals_write_to_tgt_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/000xog_xog_section/0012_xogsection_jobs_z_itd_intfc_actuals_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/000xog_xog_section/xogDriver.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/001db_db_section/0001_dbsection_set_z_target_default_val-actuals_intfc_cfg.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/002files_file_section/customlib/demo/de/itdesign/customerName/ActualsImportFromAttachment.groovy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/002files_file_section/customlib/demo/de/itdesign/customerName/ActualsImportFromCSV.groovy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/002files_file_section/zitdscripts/demo/gel/actuals/importSrcDataFromAttachment.groovy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/002files_file_section/zitdscripts/demo/gel/actuals/validateAndTransformRawData.groovy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/002files_file_section/zitdscripts/demo/gel/actuals/writeTransformedDataToTarget.groovy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/content/002files_file_section/zitdscripts/demo/job/actuals/actualsInterfaceFromCSV.groovy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/install.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/install.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/install.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/ant-apache-log4j.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/ant-apache-oro.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/ant-apache-regexp.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/ant-commons-logging.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/ant-contrib.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/ant-launcher.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/ant-nodeps.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/ant.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/groovy-all-2.0.5.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/groovy-ant-4.0.21.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/itd-ant.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/itdscriptsupport.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/jakarta-oro-2.0.8.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/jhades-standalone-report.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/log4j.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/msbase.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/mssqlserver.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/msutil.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/ojdbc14.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/xercesImpl.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/lib/xml-apis.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/log4j.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/package_info.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/process_validation_groovlets/groovletCaller.groovy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/util/reset_admin_locale_mssql.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/util/reset_admin_locale_oracle.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/util/reset_admin_locale_postgres.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/util/set_admin_locale_mssql.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/util/set_admin_locale_oracle.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-actuals-demo-content/util/set_admin_locale_postgres.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/INSTALL.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/bin/ant" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/bin/ant.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/0001_xogsection_instances_chargecodes_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/0002_xogsection_instances_companyClasses_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/0003_xogsection_instances_inputtypecodes_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/0004_xogsection_instances_investmentClasses_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/0005_xogsection_instances_resourceclasses_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/0006_xogsection_instances_transactionclasses_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/0007_xogsection_instances_wipClasses_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/0008_xogsection_obs_z_ii_dept_obs_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/0009_xogsection_obs_z_ii_loc_obs_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/0010_xogsection_instances_entity_ii_01_dummy_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/0011_xogsection_instances_matrices_ii_01_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/0012_xogsection_instances_entity_ii_01_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/0013_xogsection_instances_locations_ii_01_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/0014_xogsection_instances_departments_ii_01_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/0015_xogsection_instances_resource_ii_l_01_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/0016_xogsection_instances_resource_ii_l_02_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/0017_xogsection_instances_resource_ii_q_01_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/0018_xogsection_instances_resource_ii_m_01_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/0019_xogsection_instances_resource_ii_x_01_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/content/000xog_xog_section/xogDriver.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/install.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/install.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/install.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/lib/ant-apache-log4j.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/lib/ant-apache-oro.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/lib/ant-apache-regexp.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/lib/ant-commons-logging.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/lib/ant-contrib.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/lib/ant-launcher.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/lib/ant-nodeps.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/lib/ant.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/lib/groovy-ant-4.0.21.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/lib/itd-ant.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/lib/jakarta-oro-2.0.8.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/lib/jhades-standalone-report.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/lib/log4j.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/lib/xercesImpl.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/lib/xml-apis.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/log4j.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/package_info.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/process_validation_groovlets/groovletCaller.groovy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/util/reset_admin_locale_mssql.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/util/reset_admin_locale_oracle.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/util/reset_admin_locale_postgres.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/util/set_admin_locale_mssql.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/util/set_admin_locale_oracle.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/demoContent/itd-interface-common-demo-content/util/set_admin_locale_postgres.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/INSTALL.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/bin/ant" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/bin/ant.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/content/000xog_xog_section/0001_xogsection_lookups_Z_ITD_EXTERNAL_SOURCE_ID_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/content/000xog_xog_section/0002_xogsection_lookups_Z_ITD_INV_ACTIVE_AND_FIN_OPEN_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/content/000xog_xog_section/0003_xogsection_lookups_Z_ITD_INV_DEPT_AND_LOC_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/content/000xog_xog_section/0004_xogsection_objects_z_itd_intfc_actuals_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/content/000xog_xog_section/0005_xogsection_fields_z_itd_intfc-aggregated_actuals_fields_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/content/000xog_xog_section/0006_xogsection_groups_z_itd_intfc_actuals_viewer_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/content/000xog_xog_section/0007_xogsection_groups_z_itd_intfc_actuals_admin_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/content/000xog_xog_section/0008_xogsection_instances_z_itd_intfc_cfg-actuals_intfc_cfg_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/content/000xog_xog_section/0009_xogsection_instances_z_itd_intfc_stgtotgt-actuals_default_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/content/000xog_xog_section/xogDriver.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/install.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/install.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/install.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/lib/ant-apache-log4j.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/lib/ant-apache-oro.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/lib/ant-apache-regexp.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/lib/ant-commons-logging.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/lib/ant-contrib.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/lib/ant-launcher.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/lib/ant-nodeps.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/lib/ant.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/lib/groovy-ant-4.0.21.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/lib/itd-ant.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/lib/jakarta-oro-2.0.8.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/lib/jhades-standalone-report.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/lib/log4j.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/lib/xercesImpl.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/lib/xml-apis.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/log4j.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/package_info.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/process_validation_groovlets/groovletCaller.groovy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/util/reset_admin_locale_mssql.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/util/reset_admin_locale_oracle.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/util/reset_admin_locale_postgres.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/util/set_admin_locale_mssql.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/util/set_admin_locale_oracle.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-actuals/util/set_admin_locale_postgres.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/INSTALL.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/bin/ant" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/bin/ant.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/content/000xog_xog_section/0001_xogsection_lookups_Z_ITD_INTFC_TYPE_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/content/000xog_xog_section/0002_xogsection_lookups_Z_ITD_INTFC_SRC_TYPE_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/content/000xog_xog_section/0003_xogsection_lookups_Z_ITD_INTFC_STATUS_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/content/000xog_xog_section/0004_xogsection_lookups_Z_ITD_INTFC_OPERATION_TYPE_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/content/000xog_xog_section/0005_xogsection_lookups_Z_ITD_UPDATE_DECISION_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/content/000xog_xog_section/0006_xogsection_lookups_Z_ITD_INTFC_TGT_TYPE_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/content/000xog_xog_section/0007_xogsection_objects_z_itd_intfc_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/content/000xog_xog_section/0008_xogsection_objects_z_itd_intfc_cfg_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/content/000xog_xog_section/0009_xogsection_objects_z_itd_intfc_cfg_grp_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/content/000xog_xog_section/0010_xogsection_objects_z_itd_intfc_srctostg_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/content/000xog_xog_section/0011_xogsection_objects_z_itd_intfc_stgtotgt_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/content/000xog_xog_section/0012_xogsection_lookups_Z_ITD_INTFC_CFG_BY_TYPES_write.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/content/000xog_xog_section/xogDriver.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/content/001files_file_section/customlib/itd-interface-1.7.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/install.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/install.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/install.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/lib/ant-apache-log4j.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/lib/ant-apache-oro.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/lib/ant-apache-regexp.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/lib/ant-commons-logging.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/lib/ant-contrib.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/lib/ant-launcher.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/lib/ant-nodeps.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/lib/ant.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/lib/groovy-ant-4.0.21.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/lib/itd-ant.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/lib/jakarta-oro-2.0.8.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/lib/jhades-standalone-report.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/lib/log4j.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/lib/xercesImpl.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/lib/xml-apis.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/log4j.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/package_info.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/process_validation_groovlets/groovletCaller.groovy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/util/reset_admin_locale_mssql.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/util/reset_admin_locale_oracle.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/util/reset_admin_locale_postgres.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/util/set_admin_locale_mssql.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/util/set_admin_locale_oracle.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../packages/itd-interface-common/util/set_admin_locale_postgres.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../itd-interfaces/lib/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../../itd-interfaces/lib/build.gradle" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 1
+}]]></component>
+  <component name="ProjectId" id="2tyUT7rmV7CzbzzMRQjFgZkPsDY" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/gitroot/itd-interfaces/source/BlueprintMigrate/src"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0fa7a18b-891b-4f7e-976c-cd270decd23d" name="Changes" comment="" />
+      <created>1741323812446</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1741323812446</updated>
+    </task>
+    <servers />
+  </component>
+</project>
