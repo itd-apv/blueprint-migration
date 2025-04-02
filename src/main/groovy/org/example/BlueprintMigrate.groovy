@@ -1,5 +1,6 @@
 import de.itdesign.clarity.rest.ClarityRestClient
 import de.itdesign.clarity.rest.RestResponse
+import groovy.json.JsonSlurper
 import org.apache.logging.log4j.LogManager
 import com.niku.union.config.ConfigurationManager
 import com.niku.union.config.properties.Database
@@ -21,26 +22,24 @@ Sql getDBConnection() {
     sql
 }
 
-// Function to get the available_visual_id from the database based on the last 3 digits of visualId
 def getAvailableVisualIdFromDB(String visualId) {
-    // Extract last 3 digits of the visualId
     String lastThreeDigits = visualId.takeRight(3)
     String availableVisualId = null
     Sql sql
     try {
         sql = getDBConnection()
-        availableVisualId = sql.rows("SELECT available_visual_id FROM BLP_BLUEPRINT_VISUALS WHERE SUBSTR(available_visual_id, -3) = ?", [lastThreeDigits])?.available_visual_id
+        availableVisualId = sql.firstRow("SELECT available_visual_id FROM BLP_BLUEPRINT_VISUALS WHERE SUBSTR(available_visual_id, -3) = ?", [lastThreeDigits])?.available_visual_id
+        println("query : ${availableVisualId}")
     } catch (Exception e) {
         LOG.error("Error while fetching visualId from DB: ${e.message}", e)
     }
     return availableVisualId
 }
 
-// Function to copy a blueprint
 def copyBlueprintByPost(String internalId, ClarityRestClient rest) {
     RestResponse resp
     String urlString = "private/copy/blueprints/${internalId}"
-    Map<String, Object> body = [name: "New Copy Demo"]
+    Map<String, Object> body = [name: "Standard Projectt"]
     println("url: ${urlString}")
     try {
         resp = rest.POST(urlString, body)
@@ -52,8 +51,6 @@ def copyBlueprintByPost(String internalId, ClarityRestClient rest) {
     resp?.jsonMap()
 }
 
-
-// Function to patch a blueprint
 def updateBlueprint(String internalId, Map<String, Object> patchData, ClarityRestClient rest) {
     RestResponse resp
     String urlString = "private/blueprints/${internalId}"
@@ -67,7 +64,6 @@ def updateBlueprint(String internalId, Map<String, Object> patchData, ClarityRes
     resp?.jsonMap()
 }
 
-// Function to get blueprint by ID
 def getBlueprintById(String internalId, ClarityRestClient rest) {
     RestResponse resp
     String urlString = "private/blueprints/${internalId}"
@@ -81,7 +77,6 @@ def getBlueprintById(String internalId, ClarityRestClient rest) {
     resp?.jsonMap()
 }
 
-// Function to edit a blueprint
 def editBlueprint(String code, ClarityRestClient rest) {
     RestResponse resp
     String urlString = "private/copyBlueprint"
@@ -96,35 +91,80 @@ def editBlueprint(String code, ClarityRestClient rest) {
     resp?.jsonMap()
 }
 
-// Function to post modules to the new blueprint
-def postModulesToBlueprint(String blueprintInternalId, List<Map<String, Object>> modules, ClarityRestClient rest) {
+def getExistingModuleLabels(String blueprintInternalId, ClarityRestClient rest) {
     RestResponse resp
     String urlString = "private/blueprints/${blueprintInternalId}/visuals"
+    List existingLabels = []
+
+    try {
+        resp = rest.GET(urlString)
+        def responseData = resp?.jsonMap()
+        println("Response Data: ${responseData}")
+
+        def visualIds = responseData?._results?.collect { it._internalId }
+
+        visualIds.each { id ->
+            String detailUrl = "private/blueprints/${blueprintInternalId}/visuals/${id}"
+            try {
+                RestResponse detailResp = rest.GET(detailUrl)
+                def detailData = detailResp?.jsonMap()
+                if (detailData?.label) {
+                    existingLabels << detailData.label
+                }
+            } catch (Exception e) {
+                println("Error fetching label for visual ID ${id}: ${e.message}")
+            }
+        }
+        println("Existing Labels: ${existingLabels}")
+    } catch (Exception e) {
+        println("Error while fetching existing module labels: ${e.message}")
+        e.printStackTrace()
+    }
+    return existingLabels
+}
+
+def postModulesToBlueprint(String createdblueprintInternalId,String blueprintInternalId, List<Map<String, Object>> modules, ClarityRestClient rest) {
+    String visualId
+    RestResponse resp
+    String urlString = "private/blueprints/${blueprintInternalId}/visuals"
+
+    List existingLabels = getExistingModuleLabels(createdblueprintInternalId, rest)
+    println("Existing Module Labels in blueprint: ${existingLabels}")
+
     modules.each { module ->
+        println("loop: ${visualId}")
+        if (existingLabels.contains(module.label)) {
+
+            return
+        }
+        println("module visual : ${module.visualId.toString()}")
         String availableVisualId = getAvailableVisualIdFromDB(module.visualId.toString())
         if (availableVisualId) {
-            module.visualId = availableVisualId
+             visualId = availableVisualId
+            println("avialble visula: ${visualId}")
         }
+
+
         Map<String, Object> moduleBody = [
                 type            : module.type,
                 sequence        : module.sequence,
                 attributeName   : module.attributeName,
                 label           : module.label,
-                visualId        : module.visualId,
+                visualId        : visualId,
                 includedInFlyout: module.includedInFlyout
         ]
+        println("Posting Body: ${moduleBody}")
+
         try {
             resp = rest.POST(urlString, moduleBody)
+            println("Post Response: ${resp?.jsonMap()}")
         } catch (Exception e) {
             println("Error while posting module: ${e.message}")
             e.printStackTrace()
-            return [:]
         }
-        resp?.jsonMap()
     }
 }
 
-// Function to get sections from a blueprint
 def getSectionsFromBlueprint(String blueprintInternalId, ClarityRestClient rest) {
 
     RestResponse resp
@@ -142,7 +182,6 @@ def getSectionsFromBlueprint(String blueprintInternalId, ClarityRestClient rest)
     return response
 }
 
-// Function to post a field to a specific section
 def postFieldToSection(String blueprintId, String sectionId, Map<String, Object> field, ClarityRestClient rest) {
     RestResponse resp
     String urlString = "private/blueprints/${blueprintId}/sections/${sectionId}/fields"
@@ -156,8 +195,6 @@ def postFieldToSection(String blueprintId, String sectionId, Map<String, Object>
     resp?.jsonMap()
 }
 
-
-// Function to post a rule to the specified endpoint
 def postRule(String copiedBlueprintInternalId, Map<String, Object> rule, ClarityRestClient rest) {
     RestResponse resp
     String urlString = "private/rules"
@@ -172,20 +209,10 @@ def postRule(String copiedBlueprintInternalId, Map<String, Object> rule, Clarity
     resp?.jsonMap()
 }
 
-// Main function to execute the steps
 def main() {
     Sql sql
     ClarityRestClient rest
-    String internalId = "5011005"
-    println(internalId)
 
-    // Sample modules data
-    List<Map<String, Object>> modules = [
-            [_internalId: 5018120, sequence: 0, enablePropNav: false, enableModalCreate: false, relativePath: "project.conversation", enableQuickCreate: true, attributeName: "hierarchy", label: "Hierarchy", type: "link", category: "MODULE", visualId: 5011074, includedInFlyout: false],
-            [label: "To Dos", type: "link", visualId: 5011072, _internalId: 5018128, sequence: 1, enablePropNav: false, enableModalCreate: false, relativePath: "project.tasks", enableQuickCreate: true, attributeName: "obaTodos", category: "MODULE", assocBlueprintId: 5011065, includedInFlyout: false]
-    ]
-
-    // Define your fields with the categorized sections: "summary", "settings", "createFromTemplate"
     List<Map<String, Object>> sections = [
             [
                     "name"  : "summary",
@@ -236,7 +263,6 @@ def main() {
             ]
     ]
 
-    // Define a list of rules to post
     List<Map<String, Object>> rules = [
             [
                     "name"                : "Test Rule 1",
@@ -253,65 +279,56 @@ def main() {
                     "objectCode"          : "z_demo"
             ]
     ]
-    println("before try")
+
     try {
         sql = getDBConnection()
         rest = new ClarityRestClient("admin", sql.getConnection())
 
+
+        println("query: ")
+        String encodedData = request.getParameter("data")
+        def jsonSlurper = new JsonSlurper()
+        def parsedData = jsonSlurper.parseText(encodedData)
+
+        String internalId = parsedData.standardBlueprintId
+        println("internalId : ${internalId}")
+
         Map<String, Object> copiedBlueprint = copyBlueprintByPost(internalId, rest)
         println("copiedBlueprint: ${copiedBlueprint}")
-        LOG.info("copiedBlueprint: ${copiedBlueprint}")
         if (copiedBlueprint.isEmpty()) {
             println("Failed to create blueprint.")
-            LOG.info("Failed to create blueprint.")
         } else {
             String createdBlueprintInternalId = copiedBlueprint._internalId.toString()
-            LOG.info("Created Blueprint ID: ${createdBlueprintInternalId}")
             println("Created Blueprint ID: ${createdBlueprintInternalId}")
 
-            // Now, use the internalId of the created blueprint to get the 'code'
             Map<String, Object> createdBlueprintData = getBlueprintById(createdBlueprintInternalId, rest)
             if (createdBlueprintData.isEmpty()) {
                 LOG.error("Failed to retrieve created blueprint by internalId: ${createdBlueprintInternalId}")
             } else {
-                // Retrieve the 'code' from the blueprint data
                 String blueprintCode = createdBlueprintData.code
-                LOG.info("Blueprint Code: ${blueprintCode}")
                 println("Blueprint Code: ${blueprintCode}")
 
                 Map<String, Object> editedBlueprint = editBlueprint(blueprintCode, rest)
                 String copiedBlueprintInternalId = editedBlueprint._internalId.toString()
-                LOG.info("Copied Blueprint ID: ${copiedBlueprintInternalId}")
                 println("Copied Blueprint ID: ${copiedBlueprintInternalId}")
 
-                // Post the modules to the new blueprint using the created ID
-                postModulesToBlueprint(copiedBlueprintInternalId, modules, rest)
-                // Step 1: Get sections from the copied blueprint
+                postModulesToBlueprint(createdBlueprintInternalId,copiedBlueprintInternalId, parsedData.modules, rest)
+                println("posted modules")
                 def sectionsIds = getSectionsFromBlueprint(copiedBlueprintInternalId, rest)
-                LOG.info("section ids: ${sectionsIds}")
                 println("section ids: ${sectionsIds}")
 
-                // Sort the sections based on name to assign lowest, second lowest, and highest section IDs
                 def sortedSections = sectionsIds.sort { a, b -> a.name <=> b.name }
 
-                // Assign section IDs for each category
                 def summarySectionId = sortedSections.find { it.name == 'summary' }?.internalId
                 def templateSectionId = sortedSections.find { it.name == 'createFromTemplate' }?.internalId
                 def settingsSectionId = sortedSections.find { it.name == 'settings' }?.internalId
 
-                // If section IDs are not found, fallback to appropriate order (lowest, second highest, highest)
                 summarySectionId = summarySectionId ?: sortedSections.min { it.internalId }?.internalId
                 templateSectionId = templateSectionId ?: sortedSections.sort { it.internalId }[-2]?.internalId
-                // Second highest section
                 settingsSectionId = settingsSectionId ?: sortedSections.sort { it.internalId }[-1]?.internalId
-                // Highest section
 
-                LOG.info("Summary Section ID: ${summarySectionId}")
-                LOG.info("Settings Section ID: ${settingsSectionId}")
-                LOG.info("Template Section ID: ${templateSectionId}")
-
-                // Post the fields for each section in order, one by one
-                sections.each { section ->
+                parsedData.details.sections.each { section ->
+                    println("section :${section}")
                     String sectionId = ""
                     if (section.name == "summary") {
                         sectionId = summarySectionId.toString()
@@ -320,29 +337,24 @@ def main() {
                     } else if (section.name == "createFromTemplate") {
                         sectionId = templateSectionId.toString()
                     }
-
-                    // Post each field in the section
                     section.fields.each { field ->
+                        println("field : ${field}")
                         postFieldToSection(copiedBlueprintInternalId, sectionId, field, rest)
+
                     }
                     println("posted fields")
                 }
 
-                // Post the rules for the copied blueprint
-                rules.each { rule ->
+                parsedData.rules.each { rule ->
                     postRule(copiedBlueprintInternalId, rule, rest)
                 }
-                LOG.info("rules posted")
                 println("rules posted")
 
-                //Create the patch data
                 Map<String, Object> putData = [
-                        mode: "PUBLISHED"  // Updating the mode to "PUBLISHED"
+                        mode: "PUBLISHED"
                 ]
 
-                // Perform the PATCH request
                 updateBlueprint(copiedBlueprintInternalId, putData, rest)
-                LOG.info("updated blueprint")
                 println("updated blueprint")
             }
         }
