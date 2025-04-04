@@ -38,7 +38,7 @@ def getAvailableVisualIdFromDB(String visualId) {
     return availableVisualId
 }
 
-def copyBlueprintByPost(String internalId, String name, ClarityRestClient rest) {
+def createBlueprintByPost(String internalId, String name, ClarityRestClient rest) {
     RestResponse resp
     String urlString = "private/copy/blueprints/${internalId}"
     Map<String, Object> body = [name: name]
@@ -266,33 +266,135 @@ def getSectionsFromBlueprint(String blueprintInternalId, ClarityRestClient rest)
     return response
 }
 
+//def postFieldToSection(String blueprintId, String sectionId, Map<String, Object> field, ClarityRestClient rest) {
+//    RestResponse resp
+//    String urlString = "private/blueprints/${blueprintId}/sections/${sectionId}/fields"
+//    println("url: ${urlString}")
+//
+//    try {
+//        Map<String, Object> formattedField = [
+//                name: field.name,
+//                metadataURL: field.name,
+//                column: field.layout?.col ?: 0,
+//                row: field.layout?.row ?: 0,
+//                width: field.layout?.sizeX ?: 1,
+//                height: field.layout?.sizeY ?: 1
+//        ]
+//
+//        String jsonBody = JsonOutput.toJson(formattedField)
+//        println("Request Body: ${jsonBody}")
+//
+//        resp = rest.POST(urlString, formattedField)
+//        println("Response: ${resp.jsonMap()}")
+//    } catch (Exception e) {
+//        println("Error while posting field: ${e.message}")
+//        e.printStackTrace()
+//        return [:]
+//    }
+//    resp?.jsonMap()
+//}
+
+import groovy.json.JsonOutput
+
+import groovy.json.JsonOutput
+
 def postFieldToSection(String blueprintId, String sectionId, Map<String, Object> field, ClarityRestClient rest) {
     RestResponse resp
     String urlString = "private/blueprints/${blueprintId}/sections/${sectionId}/fields"
-    println("url: ${urlString}")
+    println("URL: ${urlString}")
+    def postedFieldNames = []
 
     try {
+        // Step 1: Fetch Existing Fields
+        def existingFieldsResp = rest.GET(urlString)
+        def existingFields = existingFieldsResp?.jsonMap()?._results ?: []
+        def existingFieldIds = existingFields.collect { it._internalId }
+        println("Existing Field IDs: ${existingFieldIds}")
+
+
+        // Step 4: Post New Field
         Map<String, Object> formattedField = [
-                name: field.name,
+                name       : field.name,
                 metadataURL: field.name,
-                column: field.layout?.col ?: 0,
-                row: field.layout?.row ?: 0,
-                width: field.layout?.sizeX ?: 1,
-                height: field.layout?.sizeY ?: 1
+                column     : field.layout?.col ?: 0,
+                row        : field.layout?.row ?: 0,
+                width      : field.layout?.sizeX ?: 1,
+                height     : field.layout?.sizeY ?: 1
         ]
+        postedFieldNames << field.name
+        println("posted fiekds: ${postedFieldNames}")
 
         String jsonBody = JsonOutput.toJson(formattedField)
         println("Request Body: ${jsonBody}")
 
         resp = rest.POST(urlString, formattedField)
         println("Response: ${resp.jsonMap()}")
+
+    // Step 2: Get Names for Each Field ID
+        def existingFieldNames = []
+        existingFieldIds.each { id ->
+            String fieldDetailUrl = "${urlString}/${id}"
+            try {
+                RestResponse detailResp = rest.GET(fieldDetailUrl)
+                def detailData = detailResp?.jsonMap()
+                println("section json: ${detailData}")
+                if (detailData?.name) {
+                    existingFieldNames << detailData.name
+                    println("Fetched Field Name: ${detailData.name}")
+                }
+            } catch (Exception e) {
+                println("Error fetching field details for ID ${id}: ${e.message}")
+            }
+        }
+        println("Existing Field Names: ${existingFieldNames}")
+
+        // Step 5: Compare and Delete Extra Fields
+        deleteExtraFields(blueprintId, sectionId, existingFieldNames, postedFieldNames, rest)
+
     } catch (Exception e) {
         println("Error while posting field: ${e.message}")
         e.printStackTrace()
         return [:]
     }
-    resp?.jsonMap()
+    return resp?.jsonMap()
 }
+def deleteExtraFields(String blueprintId, String sectionId, List<String> existingFieldNames, List<String> parsedFieldNames, ClarityRestClient rest) {
+    println("parsed fields: ${parsedFieldNames}")
+    def extraFields = existingFieldNames - parsedFieldNames
+    println("extraaa :${extraFields}")
+
+    extraFields.each { extraFieldName ->
+        def fieldId = getFieldIdByName(blueprintId, sectionId, extraFieldName, rest)
+        if (fieldId) {
+            def deleteUrl = "private/blueprints/${blueprintId}/sections/${sectionId}/fields/${fieldId}"
+            try {
+                RestResponse deleteResp = rest.DELETE(deleteUrl)
+                println("Deleted extra field '${extraFieldName}' with ID ${fieldId}. Response: ${deleteResp?.jsonMap()}")
+            } catch (Exception e) {
+                println("Error deleting extra field '${extraFieldName}': ${e.message}")
+            }
+        } else {
+            println("Field '${extraFieldName}' not found. Skipping deletion.")
+        }
+    }
+}
+
+def getFieldIdByName(String blueprintId, String sectionId, String fieldName, ClarityRestClient rest) {
+    String urlString = "private/blueprints/${blueprintId}/sections/${sectionId}/fields"
+    try {
+        RestResponse resp = rest.GET(urlString)
+        def fields = resp?.jsonMap()?._results ?: []
+
+        def field = fields.find { it.name == fieldName }
+        return field?._internalId
+    } catch (Exception e) {
+        println("Error fetching field ID for '${fieldName}': ${e.message}")
+        return null
+    }
+}
+
+
+
 
 def postRule(String copiedBlueprintInternalId, Map<String, Object> rule, ClarityRestClient rest) {
     RestResponse resp
@@ -334,18 +436,20 @@ def main() {
         def jsonSlurper = new JsonSlurper()
         def parsedData = jsonSlurper.parseText(encodedData)
 
+        String existingInternalId = parsedData.blueprintId
+
         String internalId = parsedData.standardBlueprintId
         println("internalId : ${internalId}")
 
         String name = parsedData.details.name
         println("name: ${name}")
 
-        Map<String, Object> copiedBlueprint = copyBlueprintByPost(internalId, name,rest)
-        println("copiedBlueprint: ${copiedBlueprint}")
-        if (copiedBlueprint.isEmpty()) {
+        Map<String, Object> createdBlueprint = createBlueprintByPost(internalId, name,rest)
+        println("createdBlueprint: ${createdBlueprint}")
+        if (createdBlueprint.isEmpty()) {
             println("Failed to create blueprint.")
         } else {
-            String createdBlueprintInternalId = copiedBlueprint._internalId.toString()
+            String createdBlueprintInternalId = createdBlueprint._internalId.toString()
             println("Created Blueprint ID: ${createdBlueprintInternalId}")
 
             Map<String, Object> createdBlueprintData = getBlueprintById(createdBlueprintInternalId, rest)
@@ -466,3 +570,121 @@ def main() {
 }
 
 main()
+
+//def main() {
+//    Sql sql
+//    ClarityRestClient rest
+//
+//    try {
+//        sql = getDBConnection()
+//        rest = new ClarityRestClient("admin", sql.getConnection())
+//
+//        println("query: ")
+//        String encodedData = request.getParameter("data")
+//        def jsonSlurper = new JsonSlurper()
+//        def parsedData = jsonSlurper.parseText(encodedData)
+//
+//        String existingInternalId = parsedData.blueprintId
+//        String internalId = parsedData.standardBlueprintId
+//        println("internalId : ${internalId}")
+//
+//        Map<String, Object> createdNewBlueprint
+//        Map<String, Object> existingBlueprintData
+//        Map<String, Object> createdBlueprintData
+//        Map<String, Object> editedBlueprint
+//
+//
+//        if (existingInternalId) {
+//            println("Blueprint exists. Starting from edit operations...")
+//            existingBlueprintData = getBlueprintById(existingInternalId, rest)
+//            editedBlueprint = editBlueprint(existingBlueprintData.code, rest)
+//            println("editedBlueprint Exist: ${editedBlueprint}")
+//            if (existingBlueprintData.isEmpty()) {
+//                LOG.error("Failed to retrieve existing blueprint by internalId: ${existingInternalId}")
+//                return
+//            }
+//            println("Editing Existing Blueprint ID: ${existingInternalId}")
+//
+//        } else {
+//            println("Blueprint does not exist. Creating new blueprint...")
+//            createdNewBlueprint = createBlueprintByPost(internalId, parsedData.details.name, rest)
+//            createdBlueprintData = getBlueprintById(createdNewBlueprint._internalId.toString(), rest)
+//            editedBlueprint = editBlueprint(createdBlueprintData.code, rest)
+//            println("Created Blueprint: ${createdNewBlueprint._internalId}")
+//            println(createdBlueprintData.code)
+//            println("editedBlueprintttt: ${editedBlueprint}")
+//
+//            if (createdNewBlueprint.isEmpty()) {
+//                println("Failed to create blueprint.")
+//                return
+//            }
+//        }
+//
+//        String copiedBlueprintInternalId = editedBlueprint._internalId.toString()
+//        println("Blueprint ID for Operations: ${copiedBlueprintInternalId}")
+//
+//        // Proceed with further operations (assuming all methods handle the rest accordingly)
+//        postModulesToBlueprint(copiedBlueprintInternalId, parsedData.modules, rest)
+//        println("Posted modules")
+//
+//        postVisualsToBlueprint(copiedBlueprintInternalId, parsedData.visuals, rest)
+//
+//        deleteModulesNotInParsedList(copiedBlueprintInternalId, parsedData.visuals, rest)
+//
+//        def sectionsIds = getSectionsFromBlueprint(copiedBlueprintInternalId, rest)
+//        println("Section IDs: ${sectionsIds}")
+//
+//        def sortedSections = sectionsIds.sort { a, b -> a.internalId <=> b.internalId }
+//
+//        def sectionMap = [
+//                summary    : sortedSections[0]?.internalId,
+//                template   : sortedSections[1]?.internalId,
+//                stakeholder: sortedSections[2]?.internalId,
+//                settings   : sortedSections[3]?.internalId
+//        ]
+//
+//        parsedData.details.sections.each { section ->
+//            println("Processing section: ${section.label}")
+//            String sectionId = sectionMap[section.label.toLowerCase()] ?: sectionMap.settings
+//
+//            if (sectionId) {
+//                section.fields.each { field ->
+//                    println("Posting field: ${field}")
+//                    postFieldToSection(copiedBlueprintInternalId, sectionId, field, rest)
+//                }
+//                println("Completed posting fields for section: ${section.label}")
+//            } else {
+//                println("Error: No sectionId assigned for section: ${section.label}")
+//            }
+//        }
+//
+//        def templateSection = parsedData.details.templateSections?.find { it.label == "createFromTemplate" }
+//        if (templateSection) {
+//            println("Processing template section: createFromTemplate")
+//            templateSection.fields.each { field ->
+//                postFieldToSection(copiedBlueprintInternalId, sectionMap.template, field, rest)
+//            }
+//            println("Completed posting fields for template section: createFromTemplate")
+//        } else {
+//            println("No template section found for 'createFromTemplate'")
+//        }
+//
+//        parsedData.rules.each { rule ->
+//            postRule(copiedBlueprintInternalId, rule, rest)
+//        }
+//        println("Rules posted")
+//
+//        Map<String, Object> putData = [mode: "PUBLISHED"]
+//        updateBlueprint(copiedBlueprintInternalId, putData, rest)
+//        println("Updated blueprint")
+//
+//    } catch (Exception e) {
+//        println(e.printStackTrace())
+//    } finally {
+//        rest?.close()
+//        sql?.close()
+//    }
+//}
+//
+//main()
+//
