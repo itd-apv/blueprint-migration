@@ -82,9 +82,11 @@ def getBlueprintById(String internalId, ClarityRestClient rest) {
 def editBlueprint(String code, ClarityRestClient rest) {
     RestResponse resp
     String urlString = "private/copyBlueprint"
+    println("code: ${code}")
     Map<String, Object> body = [source: code, action: "edit"]
     try {
         resp = rest.POST(urlString, body)
+        println("resp: ${resp.jsonMap()}")
     } catch (Exception e) {
         println("Error while editing blueprint: ${e.message}")
         e.printStackTrace()
@@ -128,7 +130,7 @@ def getExistingModuleLabels(String blueprintInternalId, ClarityRestClient rest) 
     return existingLabels
 }
 
-def postModulesToBlueprint( String blueprintInternalId, List<Map<String, Object>> modules, ClarityRestClient rest) {
+def postModulesToBlueprint(String blueprintInternalId, List<Map<String, Object>> modules, ClarityRestClient rest) {
     String visualId
     RestResponse resp
     String urlString = "private/blueprints/${blueprintInternalId}/visuals"
@@ -162,6 +164,7 @@ def postModulesToBlueprint( String blueprintInternalId, List<Map<String, Object>
         }
     }
 }
+
 def postVisualsToBlueprint(String blueprintInternalId, List<Map<String, Object>> visuals, ClarityRestClient rest) {
     RestResponse resp
     String urlString = "private/blueprints/${blueprintInternalId}/visuals"
@@ -170,12 +173,12 @@ def postVisualsToBlueprint(String blueprintInternalId, List<Map<String, Object>>
         println("Processing visual: ${visual.label}")
 
         Map<String, Object> visualBody = [
-                type           : visual.type,
-                sequence       : visual.sequence,
-                attributeName  : visual.attributeName,
-                blueprintType  : visual.blueprintType,
-                label          : visual.label,
-                visualId       : visual.visualId
+                type         : visual.type,
+                sequence     : visual.sequence,
+                attributeName: visual.attributeName,
+                blueprintType: visual.blueprintType,
+                label        : visual.label,
+                visualId     : visual.visualId
         ]
 
         println("Posting Visual Body: ${visualBody}")
@@ -265,54 +268,15 @@ def getSectionsFromBlueprint(String blueprintInternalId, ClarityRestClient rest)
     println("section response: ${response}")
     return response
 }
-
-//def postFieldToSection(String blueprintId, String sectionId, Map<String, Object> field, ClarityRestClient rest) {
-//    RestResponse resp
-//    String urlString = "private/blueprints/${blueprintId}/sections/${sectionId}/fields"
-//    println("url: ${urlString}")
-//
-//    try {
-//        Map<String, Object> formattedField = [
-//                name: field.name,
-//                metadataURL: field.name,
-//                column: field.layout?.col ?: 0,
-//                row: field.layout?.row ?: 0,
-//                width: field.layout?.sizeX ?: 1,
-//                height: field.layout?.sizeY ?: 1
-//        ]
-//
-//        String jsonBody = JsonOutput.toJson(formattedField)
-//        println("Request Body: ${jsonBody}")
-//
-//        resp = rest.POST(urlString, formattedField)
-//        println("Response: ${resp.jsonMap()}")
-//    } catch (Exception e) {
-//        println("Error while posting field: ${e.message}")
-//        e.printStackTrace()
-//        return [:]
-//    }
-//    resp?.jsonMap()
-//}
-
-import groovy.json.JsonOutput
-
-import groovy.json.JsonOutput
+postedFieldNames = []
 
 def postFieldToSection(String blueprintId, String sectionId, Map<String, Object> field, ClarityRestClient rest) {
     RestResponse resp
     String urlString = "private/blueprints/${blueprintId}/sections/${sectionId}/fields"
     println("URL: ${urlString}")
-    def postedFieldNames = []
+
 
     try {
-        // Step 1: Fetch Existing Fields
-        def existingFieldsResp = rest.GET(urlString)
-        def existingFields = existingFieldsResp?.jsonMap()?._results ?: []
-        def existingFieldIds = existingFields.collect { it._internalId }
-        println("Existing Field IDs: ${existingFieldIds}")
-
-
-        // Step 4: Post New Field
         Map<String, Object> formattedField = [
                 name       : field.name,
                 metadataURL: field.name,
@@ -322,34 +286,7 @@ def postFieldToSection(String blueprintId, String sectionId, Map<String, Object>
                 height     : field.layout?.sizeY ?: 1
         ]
         postedFieldNames << field.name
-        println("posted fiekds: ${postedFieldNames}")
-
-        String jsonBody = JsonOutput.toJson(formattedField)
-        println("Request Body: ${jsonBody}")
-
         resp = rest.POST(urlString, formattedField)
-        println("Response: ${resp.jsonMap()}")
-
-    // Step 2: Get Names for Each Field ID
-        def existingFieldNames = []
-        existingFieldIds.each { id ->
-            String fieldDetailUrl = "${urlString}/${id}"
-            try {
-                RestResponse detailResp = rest.GET(fieldDetailUrl)
-                def detailData = detailResp?.jsonMap()
-                println("section json: ${detailData}")
-                if (detailData?.name) {
-                    existingFieldNames << detailData.name
-                    println("Fetched Field Name: ${detailData.name}")
-                }
-            } catch (Exception e) {
-                println("Error fetching field details for ID ${id}: ${e.message}")
-            }
-        }
-        println("Existing Field Names: ${existingFieldNames}")
-
-        // Step 5: Compare and Delete Extra Fields
-        deleteExtraFields(blueprintId, sectionId, existingFieldNames, postedFieldNames, rest)
 
     } catch (Exception e) {
         println("Error while posting field: ${e.message}")
@@ -365,6 +302,7 @@ def deleteExtraFields(String blueprintId, String sectionId, List<String> existin
 
     extraFields.each { extraFieldName ->
         def fieldId = getFieldIdByName(blueprintId, sectionId, extraFieldName, rest)
+        println("fieldId for delte: ${fieldId}")
         if (fieldId) {
             def deleteUrl = "private/blueprints/${blueprintId}/sections/${sectionId}/fields/${fieldId}"
             try {
@@ -393,21 +331,18 @@ def getFieldIdByName(String blueprintId, String sectionId, String fieldName, Cla
     }
 }
 
-
-
-
 def postRule(String copiedBlueprintInternalId, Map<String, Object> rule, ClarityRestClient rest) {
     RestResponse resp
     String urlString = "private/rules"
 
     Map<String, Object> postData = [
-            name: rule.name ?: "Default Name",
-            isActive: rule.isActive ?: false,
-            category: rule.category ?: "ui",
+            name                : rule.name ?: "Default Name",
+            isActive            : rule.isActive ?: false,
+            category            : rule.category ?: "ui",
             associatedObjectCode: rule.associatedObjectCode ?: "odf_blueprint",
-            description: rule.description ?: "No description",
+            description         : rule.description ?: "No description",
             associatedInstanceId: copiedBlueprintInternalId,
-            objectCode: rule.id ?: "project"
+            objectCode          : rule.id ?: "project"
     ]
 
     try {
@@ -421,6 +356,123 @@ def postRule(String copiedBlueprintInternalId, Map<String, Object> rule, Clarity
     resp?.jsonMap()
 }
 
+def sortSections(List<Map<String, Object>> sections) {
+    return sections.sort { a, b -> a.internalId <=> b.internalId }
+}
+
+def deleteMatchingRules(String targetAssociatedInstanceId, ClarityRestClient rest) {
+    println("taregt: ${targetAssociatedInstanceId}")
+    String urlString = "private/rules"
+    def offset = 0
+    def hasMore = true
+
+    try {
+        while (hasMore) {
+            String url = "${urlString}?offset=${offset}"
+            println("Fetching URL: ${url}")
+            RestResponse response = rest.GET(url)
+            def responseData = response?.jsonMap()
+            def rules = responseData?._results ?: []
+            hasMore = responseData?._next != null
+
+            rules.each { rule ->
+                def ruleDetailUrl = "${urlString}/${rule._internalId}"
+                println("Rule Detail URL: ${ruleDetailUrl}")
+                RestResponse ruleDetailResp = rest.GET(ruleDetailUrl)
+                def ruleDetails = ruleDetailResp?.jsonMap()
+                println("Rule JSON: ${ruleDetails}")
+                println("associated Instance: ${ruleDetails?.associatedInstanceId}")
+
+
+                if (ruleDetails?.associatedInstanceId?.toString()?.trim() == targetAssociatedInstanceId?.toString()?.trim()) {
+                    println("associated Instance inside: ${ruleDetails?.associatedInstanceId}")
+                    deleteRule(rule._internalId.toString(), rest)
+                    println("Deleted rule with ID: ${rule._internalId} (associatedInstanceId: ${targetAssociatedInstanceId})")
+                }
+            }
+
+            if (responseData?._next) {
+                offset += 25
+            } else {
+                hasMore = false
+            }
+        }
+    } catch (Exception e) {
+        println("Error while deleting matching rules: ${e.message}")
+        e.printStackTrace()
+    }
+}
+
+def deleteRule(String ruleId, ClarityRestClient rest) {
+    String urlString = "private/rules"
+    def requestBody = [
+            d: [
+                    [_internalId: ruleId]
+            ]
+    ]
+
+    try {
+        RestResponse resp = rest.DELETE(urlString, requestBody)
+        println("Deleted rule with ID: ${ruleId}")
+        return resp?.jsonMap()
+    } catch (Exception e) {
+        println("Error deleting rule with ID ${ruleId}: ${e.message}")
+        return [:]
+    }
+}
+
+def processSections (List<Map<String, Object>> sortedSections, sections, String copiedBlueprintInternalId, ClarityRestClient rest) {
+    println("sections -> ${sections}, copyBlueprintId: ${copiedBlueprintInternalId}")
+    def summarySectionId
+    def templateSectionId
+    def stakeHolderSectionId
+    def settingsSectionId
+
+    if (sortedSections.size() == 4) {
+        summarySectionId = sortedSections[0]?.internalId
+        templateSectionId = sortedSections[1]?.internalId
+        stakeHolderSectionId = sortedSections[2]?.internalId
+        settingsSectionId = sortedSections[3]?.internalId
+        println("Assigned IDs for 4 sections:")
+    } else if (sortedSections.size() == 3) {
+        summarySectionId = sortedSections[0]?.internalId
+        templateSectionId = sortedSections[1]?.internalId
+        settingsSectionId = sortedSections[2]?.internalId
+        println("Assigned IDs for 3 sections:")
+    } else {
+        println("Unexpected number of sections: ${sortedSections.size()}")
+    }
+
+    sections.each { section ->
+        println("Processing section: ${section.label}")
+        String sectionId = ""
+
+        def label = section.label?.trim()?.toLowerCase()
+
+        if (label == "summary" || label == "project summary") {
+            sectionId = summarySectionId?.toString()
+            println("Assigned summary ID: ${sectionId}")
+        }
+        if (label == "stakeholders") {
+            sectionId = stakeHolderSectionId?.toString()
+            println("Assigned stakeholders ID: ${sectionId}")
+        }
+        if (label == "settings") {
+            sectionId = settingsSectionId?.toString()
+            println("Assigned settings ID: ${sectionId}")
+        }
+        if (sectionId) {
+            section.fields.each { field ->
+                println("Posting field: ${field}")
+                postFieldToSection(copiedBlueprintInternalId, sectionId, field, rest)
+            }
+            println("Completed posting fields for section: ${section.label}")
+        } else {
+            println("Error: No sectionId assigned for section: ${section.label}")
+        }
+    }
+
+}
 
 def main() {
     Sql sql
@@ -430,8 +482,6 @@ def main() {
         sql = getDBConnection()
         rest = new ClarityRestClient("admin", sql.getConnection())
 
-
-        println("query: ")
         String encodedData = request.getParameter("data")
         def jsonSlurper = new JsonSlurper()
         def parsedData = jsonSlurper.parseText(encodedData)
@@ -444,36 +494,30 @@ def main() {
         String name = parsedData.details.name
         println("name: ${name}")
 
-        Map<String, Object> createdBlueprint = createBlueprintByPost(internalId, name,rest)
-        println("createdBlueprint: ${createdBlueprint}")
-        if (createdBlueprint.isEmpty()) {
-            println("Failed to create blueprint.")
-        } else {
-            String createdBlueprintInternalId = createdBlueprint._internalId.toString()
-            println("Created Blueprint ID: ${createdBlueprintInternalId}")
-
-            Map<String, Object> createdBlueprintData = getBlueprintById(createdBlueprintInternalId, rest)
-            if (createdBlueprintData.isEmpty()) {
-                LOG.error("Failed to retrieve created blueprint by internalId: ${createdBlueprintInternalId}")
+        if (existingInternalId) {
+            println("Existing Blueprint ID found: ${existingInternalId}")
+            // Use existingInternalId for all operations
+            Map<String, Object> existingBlueprintData = getBlueprintById(existingInternalId, rest)
+            if (existingBlueprintData.isEmpty()) {
+                LOG.error("Failed to retrieve existing blueprint by internalId: ${existingInternalId}")
             } else {
-                String blueprintCode = createdBlueprintData.code
+                String blueprintCode = existingBlueprintData.code
                 println("Blueprint Code: ${blueprintCode}")
 
-                Map<String, Object> editedBlueprint = editBlueprint(blueprintCode, rest)
+                def editedBlueprint = editBlueprint(blueprintCode.toString(), rest)
                 String copiedBlueprintInternalId = editedBlueprint._internalId.toString()
                 println("Copied Blueprint ID: ${copiedBlueprintInternalId}")
 
-                postModulesToBlueprint(copiedBlueprintInternalId,parsedData.modules, rest)
-                println("posted modules")
+                postModulesToBlueprint(copiedBlueprintInternalId, parsedData.modules, rest)
+                println("Posted modules")
 
-                postVisualsToBlueprint(copiedBlueprintInternalId,parsedData.visuals, rest)
-
-
+                postVisualsToBlueprint(copiedBlueprintInternalId, parsedData.visuals, rest)
                 deleteModulesNotInParsedList(copiedBlueprintInternalId, parsedData.visuals, rest)
+
                 def sectionsIds = getSectionsFromBlueprint(copiedBlueprintInternalId, rest)
                 println("section ids: ${sectionsIds}")
 
-                def sortedSections = sectionsIds.sort { a, b -> a.internalId <=> b.internalId }
+                def sortedSections = sortSections(sectionsIds)
 
                 def summarySectionId
                 def templateSectionId
@@ -499,7 +543,7 @@ def main() {
                     println("Processing section: ${section.label}")
                     String sectionId = ""
 
-                    def label = section.label?.trim()?.toLowerCase()  // Normalize label
+                    def label = section.label?.trim()?.toLowerCase()
 
                     if (label == "summary" || label == "project summary") {
                         sectionId = summarySectionId?.toString()
@@ -519,6 +563,7 @@ def main() {
                         sectionId = settingsSectionId?.toString() ?: templateSectionId?.toString()
                         println("Fallback section ID: ${sectionId}")
                     }
+                 //processSections(sortedSections,parsedData.details.sections,copiedBlueprintInternalId,rest)
 
                     if (sectionId) {
                         section.fields.each { field ->
@@ -547,6 +592,8 @@ def main() {
                     println("No template section found for 'createFromTemplate'")
                 }
 
+                deleteMatchingRules(copiedBlueprintInternalId, rest)
+
                 parsedData.rules.each { rule ->
                     postRule(copiedBlueprintInternalId, rule, rest)
                 }
@@ -558,10 +605,153 @@ def main() {
 
                 updateBlueprint(copiedBlueprintInternalId, putData, rest)
                 println("updated blueprint")
+
+            }
+        } else {
+            println("No existing blueprint ID found. Proceeding to create new blueprint.")
+            Map<String, Object> createdBlueprint = createBlueprintByPost(internalId, parsedData.details.name, rest)
+            if (createdBlueprint.isEmpty()) {
+                println("Failed to create blueprint.")
+            } else {
+                String createdBlueprintInternalId = createdBlueprint._internalId.toString()
+                println("Created Blueprint ID: ${createdBlueprintInternalId}")
+
+                Map<String, Object> createdBlueprintData = getBlueprintById(createdBlueprintInternalId, rest)
+                if (createdBlueprintData.isEmpty()) {
+                    LOG.error("Failed to retrieve created blueprint by internalId: ${createdBlueprintInternalId}")
+                } else {
+                    String blueprintCode = createdBlueprintData.code
+                    println("Blueprint Code: ${blueprintCode}")
+
+                    Map<String, Object> editedBlueprint = editBlueprint(blueprintCode, rest)
+                    String copiedBlueprintInternalId = editedBlueprint._internalId.toString()
+                    println("Copied Blueprint ID: ${copiedBlueprintInternalId}")
+
+                    postModulesToBlueprint(copiedBlueprintInternalId, parsedData.modules, rest)
+                    println("Posted modules")
+
+                    postVisualsToBlueprint(copiedBlueprintInternalId, parsedData.visuals, rest)
+                    deleteModulesNotInParsedList(copiedBlueprintInternalId, parsedData.visuals, rest)
+
+                    def sectionsIds = getSectionsFromBlueprint(copiedBlueprintInternalId, rest)
+                    println("section ids: ${sectionsIds}")
+
+                    def sortedSections = sectionsIds.sort { a, b -> a.internalId <=> b.internalId }
+
+                    def summarySectionId
+                    def templateSectionId
+                    def stakeHolderSectionId
+                    def settingsSectionId
+
+                    if (sortedSections.size() == 4) {
+                        summarySectionId = sortedSections[0]?.internalId
+                        templateSectionId = sortedSections[1]?.internalId
+                        stakeHolderSectionId = sortedSections[2]?.internalId
+                        settingsSectionId = sortedSections[3]?.internalId
+                        println("Assigned IDs for 4 sections:")
+                    } else if (sortedSections.size() == 3) {
+                        summarySectionId = sortedSections[0]?.internalId
+                        templateSectionId = sortedSections[1]?.internalId
+                        settingsSectionId = sortedSections[2]?.internalId
+                        println("Assigned IDs for 3 sections:")
+                    } else {
+                        println("Unexpected number of sections: ${sortedSections.size()}")
+                    }
+
+                    parsedData.details.sections.each { section ->
+                        println("Processing section: ${section.label}")
+                        String sectionId = ""
+
+                        def label = section.label?.trim()?.toLowerCase()  // Normalize label
+
+                        if (label == "summary" || label == "project summary") {
+                            sectionId = summarySectionId?.toString()
+                            println("Assigned summary ID: ${sectionId}")
+                        }
+                        if (label == "stakeholders") {
+                            sectionId = stakeHolderSectionId?.toString()
+                            println("Assigned stakeholders ID: ${sectionId}")
+                        }
+                        if (label == "settings") {
+                            sectionId = settingsSectionId?.toString()
+                            println("Assigned settings ID: ${sectionId}")
+                        }
+
+                        // Fallback condition
+                        if (!sectionId) {
+                            sectionId = settingsSectionId?.toString() ?: templateSectionId?.toString()
+                            println("Fallback section ID: ${sectionId}")
+                        }
+                        def postedFieldNames = []
+                        def existingFieldNames = []
+
+                        if (sectionId) {
+                            section.fields.each { field ->
+                                println("Posting field: ${field}")
+                                postFieldToSection(copiedBlueprintInternalId, sectionId, field, rest)
+                                // Fetch existing fields
+                                def urlString = "private/blueprints/${copiedBlueprintInternalId}/sections/${sectionId}/fields"
+                                def existingFieldsResp = rest.GET(urlString)
+                                def existingFields = existingFieldsResp?.jsonMap()?._results ?: []
+                                println("Existing Data: ${existingFields}")
+
+                                // Fetch names for each existing field
+                                existingFields.each { existField ->
+                                    def fieldId = existField?._internalId
+                                    def fieldDetailUrl = "${urlString}/${fieldId}"
+                                    try {
+                                        RestResponse detailResp = rest.GET(fieldDetailUrl)
+                                        def detailData = detailResp?.jsonMap()
+                                        if (detailData?.metadataURL) {
+                                            existingFieldNames << detailData.metadataURL
+                                            println("Fetched Field Name: ${detailData.metadataURL}")
+                                        }
+                                    } catch (Exception e) {
+                                        println("Error fetching field details for ID ${fieldId}: ${e.message}")
+                                    }
+                                }
+                                println("Existing Field Names: ${existingFieldNames}")
+
+                                // Delete extra fields
+                                deleteExtraFields(copiedBlueprintInternalId, sectionId, existingFieldNames, postedFieldNames, rest)
+                            }
+                            println("Completed posting fields for section: ${section.label}")
+                        } else {
+                            println("Error: No sectionId assigned for section: ${section.label}")
+                        }
+                    }
+
+                    def templateSection = parsedData.details.templateSections?.find { it.label == "createFromTemplate" }
+                    println("templateSection :${templateSection}")
+                    if (templateSection) {
+                        println("Processing template section: createFromTemplate")
+                        templateSection.fields.each { field ->
+                            String tsectionId = ""
+                            tsectionId = templateSectionId?.toString()
+
+                            postFieldToSection(copiedBlueprintInternalId, tsectionId, field, rest)
+                        }
+                        println("Completed posting fields for template section: createFromTemplate")
+                    } else {
+                        println("No template section found for 'createFromTemplate'")
+                    }
+
+
+                    parsedData.rules.each { rule ->
+                        postRule(copiedBlueprintInternalId, rule, rest)
+                    }
+                    println("rules posted")
+
+                    Map<String, Object> putData = [
+                            mode: "PUBLISHED"
+                    ]
+
+                    updateBlueprint(copiedBlueprintInternalId, putData, rest)
+                    println("updated blueprint")
+                }
             }
         }
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
         println(e.printStackTrace())
     } finally {
         rest?.close()
@@ -570,121 +760,3 @@ def main() {
 }
 
 main()
-
-//def main() {
-//    Sql sql
-//    ClarityRestClient rest
-//
-//    try {
-//        sql = getDBConnection()
-//        rest = new ClarityRestClient("admin", sql.getConnection())
-//
-//        println("query: ")
-//        String encodedData = request.getParameter("data")
-//        def jsonSlurper = new JsonSlurper()
-//        def parsedData = jsonSlurper.parseText(encodedData)
-//
-//        String existingInternalId = parsedData.blueprintId
-//        String internalId = parsedData.standardBlueprintId
-//        println("internalId : ${internalId}")
-//
-//        Map<String, Object> createdNewBlueprint
-//        Map<String, Object> existingBlueprintData
-//        Map<String, Object> createdBlueprintData
-//        Map<String, Object> editedBlueprint
-//
-//
-//        if (existingInternalId) {
-//            println("Blueprint exists. Starting from edit operations...")
-//            existingBlueprintData = getBlueprintById(existingInternalId, rest)
-//            editedBlueprint = editBlueprint(existingBlueprintData.code, rest)
-//            println("editedBlueprint Exist: ${editedBlueprint}")
-//            if (existingBlueprintData.isEmpty()) {
-//                LOG.error("Failed to retrieve existing blueprint by internalId: ${existingInternalId}")
-//                return
-//            }
-//            println("Editing Existing Blueprint ID: ${existingInternalId}")
-//
-//        } else {
-//            println("Blueprint does not exist. Creating new blueprint...")
-//            createdNewBlueprint = createBlueprintByPost(internalId, parsedData.details.name, rest)
-//            createdBlueprintData = getBlueprintById(createdNewBlueprint._internalId.toString(), rest)
-//            editedBlueprint = editBlueprint(createdBlueprintData.code, rest)
-//            println("Created Blueprint: ${createdNewBlueprint._internalId}")
-//            println(createdBlueprintData.code)
-//            println("editedBlueprintttt: ${editedBlueprint}")
-//
-//            if (createdNewBlueprint.isEmpty()) {
-//                println("Failed to create blueprint.")
-//                return
-//            }
-//        }
-//
-//        String copiedBlueprintInternalId = editedBlueprint._internalId.toString()
-//        println("Blueprint ID for Operations: ${copiedBlueprintInternalId}")
-//
-//        // Proceed with further operations (assuming all methods handle the rest accordingly)
-//        postModulesToBlueprint(copiedBlueprintInternalId, parsedData.modules, rest)
-//        println("Posted modules")
-//
-//        postVisualsToBlueprint(copiedBlueprintInternalId, parsedData.visuals, rest)
-//
-//        deleteModulesNotInParsedList(copiedBlueprintInternalId, parsedData.visuals, rest)
-//
-//        def sectionsIds = getSectionsFromBlueprint(copiedBlueprintInternalId, rest)
-//        println("Section IDs: ${sectionsIds}")
-//
-//        def sortedSections = sectionsIds.sort { a, b -> a.internalId <=> b.internalId }
-//
-//        def sectionMap = [
-//                summary    : sortedSections[0]?.internalId,
-//                template   : sortedSections[1]?.internalId,
-//                stakeholder: sortedSections[2]?.internalId,
-//                settings   : sortedSections[3]?.internalId
-//        ]
-//
-//        parsedData.details.sections.each { section ->
-//            println("Processing section: ${section.label}")
-//            String sectionId = sectionMap[section.label.toLowerCase()] ?: sectionMap.settings
-//
-//            if (sectionId) {
-//                section.fields.each { field ->
-//                    println("Posting field: ${field}")
-//                    postFieldToSection(copiedBlueprintInternalId, sectionId, field, rest)
-//                }
-//                println("Completed posting fields for section: ${section.label}")
-//            } else {
-//                println("Error: No sectionId assigned for section: ${section.label}")
-//            }
-//        }
-//
-//        def templateSection = parsedData.details.templateSections?.find { it.label == "createFromTemplate" }
-//        if (templateSection) {
-//            println("Processing template section: createFromTemplate")
-//            templateSection.fields.each { field ->
-//                postFieldToSection(copiedBlueprintInternalId, sectionMap.template, field, rest)
-//            }
-//            println("Completed posting fields for template section: createFromTemplate")
-//        } else {
-//            println("No template section found for 'createFromTemplate'")
-//        }
-//
-//        parsedData.rules.each { rule ->
-//            postRule(copiedBlueprintInternalId, rule, rest)
-//        }
-//        println("Rules posted")
-//
-//        Map<String, Object> putData = [mode: "PUBLISHED"]
-//        updateBlueprint(copiedBlueprintInternalId, putData, rest)
-//        println("Updated blueprint")
-//
-//    } catch (Exception e) {
-//        println(e.printStackTrace())
-//    } finally {
-//        rest?.close()
-//        sql?.close()
-//    }
-//}
-//
-//main()
-//
