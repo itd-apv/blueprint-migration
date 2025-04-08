@@ -32,7 +32,7 @@ def getAvailableVisualIdFromDB(String visualId) {
         availableVisualId = sql.firstRow("SELECT available_visual_id FROM BLP_BLUEPRINT_VISUALS WHERE SUBSTR(available_visual_id, -3) = ?", [lastThreeDigits])?.available_visual_id
         println("query : ${availableVisualId}")
     } catch (Exception e) {
-        LOG.error("Error while fetching visualId from DB: ${e.message}", e)
+        println("Error while fetching visualId from DB: ${e.message}", e)
     }
     return availableVisualId
 }
@@ -344,10 +344,6 @@ def postRule(String copiedBlueprintInternalId, Map<String, Object> rule, Clarity
     resp?.jsonMap()
 }
 
-def sortSections(List<Map<String, Object>> sections) {
-    return sections.sort { a, b -> a.internalId <=> b.internalId }
-}
-
 def deleteMatchingRules(String targetAssociatedInstanceId, ClarityRestClient rest) {
     println("taregt: ${targetAssociatedInstanceId}")
     String urlString = "private/rules"
@@ -409,6 +405,41 @@ def deleteRule(String ruleId, ClarityRestClient rest) {
     }
 }
 
+def processSectionFields(String blueprintId, def section, Map sectionIdsMap, ClarityRestClient rest) {
+    String sectionLabel = section.label?.toLowerCase()
+    String sectionId = sectionIdsMap[sectionLabel]
+
+    if (sectionId) {
+        println("Processing section: ${section.label}")
+        section.fields.each { field ->
+            postFieldToSection(blueprintId, sectionId, field, rest)
+        }
+        println("Completed posting fields for section: ${section.label}")
+    } else {
+        println("Error: No sectionId assigned for section: ${section.label}")
+    }
+}
+
+def processTemplateSection(String blueprintId, def templateSections, Map sectionIdsMap, ClarityRestClient rest) {
+    def templateSection = templateSections?.find { it.label?.toLowerCase() == "createfromtemplate" }
+
+    if (templateSection) {
+        String templateSectionId = sectionIdsMap[templateSection.label?.toLowerCase()]
+
+        if (templateSectionId) {
+            println("Processing template section: ${templateSection.label}")
+            templateSection.fields.each { field ->
+                postFieldToSection(blueprintId, templateSectionId, field, rest)
+            }
+            println("Completed posting fields for template section: ${templateSection.label}")
+        } else {
+            println("Error: No sectionId assigned for template section: ${templateSection.label}")
+        }
+    } else {
+        println("No template section found for 'createFromTemplate'")
+    }
+}
+
 def main() {
     Sql sql
     ClarityRestClient rest
@@ -451,44 +482,15 @@ def main() {
                 deleteModulesNotInParsedList(copiedBlueprintInternalId, parsedData.visuals, rest)
                 deleteExistingFields(copiedBlueprintInternalId, rest)
 
-
                 def sectionIdsMap = deleteExistingFields(copiedBlueprintInternalId, rest)
                 println("Section IDs Map: ${sectionIdsMap}")
 
+
                 parsedData.details.sections.each { section ->
-                    println("Processing section: ${section.label}")
-                    String sectionId = sectionIdsMap[section.label?.toLowerCase()]
-
-                    if (sectionId) {
-                        section.fields.each { field ->
-                            println("Posting field: ${field.name} to section ID: ${sectionId}")
-                            postFieldToSection(copiedBlueprintInternalId, sectionId, field, rest)
-                        }
-                        println("Completed posting fields for section: ${section.label}")
-                    } else {
-                        println("Error: No sectionId assigned for section: ${section.label}")
-                    }
+                    processSectionFields(copiedBlueprintInternalId, section, sectionIdsMap, rest)
                 }
+                processTemplateSection(copiedBlueprintInternalId, parsedData.details.templateSections, sectionIdsMap, rest)
 
-                def templateSection = parsedData.details.templateSections?.find { it.label?.toLowerCase() == "createfromtemplate" }
-                println("templateSection: ${templateSection}")
-
-                if (templateSection) {
-                    String templateSectionId = sectionIdsMap[templateSection.label?.toLowerCase()]
-
-                    if (templateSectionId) {
-                        println("Processing template section: ${templateSection.label}")
-                        templateSection.fields.each { field ->
-                            println("Posting field: ${field.name} to template section ID: ${templateSectionId}")
-                            postFieldToSection(copiedBlueprintInternalId, templateSectionId, field, rest)
-                        }
-                        println("Completed posting fields for template section: ${templateSection.label}")
-                    } else {
-                        println("Error: No sectionId assigned for template section: ${templateSection.label}")
-                    }
-                } else {
-                    println("No template section found for 'createFromTemplate'")
-                }
 
                 deleteMatchingRules(copiedBlueprintInternalId, rest)
 
@@ -536,40 +538,10 @@ def main() {
                     println("Section IDs Map: ${sectionIdsMap}")
 
                     parsedData.details.sections.each { section ->
-                        println("Processing section: ${section.label}")
-                        String sectionId = sectionIdsMap[section.label?.toLowerCase()]
-
-                        if (sectionId) {
-                            section.fields.each { field ->
-                                println("Posting field: ${field.name} to section ID: ${sectionId}")
-                                postFieldToSection(copiedBlueprintInternalId, sectionId, field, rest)
-                            }
-                            println("Completed posting fields for section: ${section.label}")
-                        } else {
-                            println("Error: No sectionId assigned for section: ${section.label}")
-                        }
+                        processSectionFields(copiedBlueprintInternalId, section, sectionIdsMap, rest)
                     }
 
-                    def templateSection = parsedData.details.templateSections?.find { it.label?.toLowerCase() == "createfromtemplate" }
-                    println("templateSection: ${templateSection}")
-
-                    if (templateSection) {
-                        String templateSectionId = sectionIdsMap[templateSection.label?.toLowerCase()]
-
-                        if (templateSectionId) {
-                            println("Processing template section: ${templateSection.label}")
-                            templateSection.fields.each { field ->
-                                println("Posting field: ${field.name} to template section ID: ${templateSectionId}")
-                                postFieldToSection(copiedBlueprintInternalId, templateSectionId, field, rest)
-                            }
-                            println("Completed posting fields for template section: ${templateSection.label}")
-                        } else {
-                            println("Error: No sectionId assigned for template section: ${templateSection.label}")
-                        }
-                    } else {
-                        println("No template section found for 'createFromTemplate'")
-                    }
-
+                    processTemplateSection(copiedBlueprintInternalId, parsedData.details.templateSections, sectionIdsMap, rest)
                     parsedData.rules.each { rule ->
                         postRule(copiedBlueprintInternalId, rule, rest)
                     }
