@@ -18,7 +18,7 @@ class BlueprintMigration {
             def connection = DriverManager.getConnection(database.url, database.username, database.password)
             sql = new Sql(connection)
         } catch (Exception e) {
-            LOG.error("Database connection error", e)
+            println("Database connection error", e)
         }
         return sql
     }

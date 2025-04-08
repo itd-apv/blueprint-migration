@@ -126,5 +126,3 @@ def rest = new ClarityRestClient("admin", sql.getConnection())
         sql?.close()
     }
 
-
-main()
