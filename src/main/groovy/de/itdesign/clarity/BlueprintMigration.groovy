@@ -2,14 +2,12 @@ package de.itdesign.clarity
 
 import de.itdesign.clarity.rest.ClarityRestClient
 import de.itdesign.clarity.rest.RestResponse
-import org.apache.logging.log4j.LogManager
 import com.niku.union.config.ConfigurationManager
 import com.niku.union.config.properties.Database
 import groovy.sql.Sql
 import java.sql.DriverManager
 
 class BlueprintMigration {
-    static final LOG = LogManager.getLogger("BlueprintMigrate")
 
     Sql getDBConnection() {
         Sql sql
