@@ -9,6 +9,7 @@ def rest = new ClarityRestClient("admin", sql.getConnection())
 
 try {
     String encodedData = request.getParameter("data")
+    String methodData = request.getParameter("method")
     def jsonSlurper = new JsonSlurper()
     def parsedData = jsonSlurper.parseText(encodedData)
 
@@ -16,48 +17,50 @@ try {
     String internalId = parsedData.standardBlueprintId
     String name = parsedData.details.name
 
-    if (existingInternalId) {
-        println("Existing blueprint Id found: ${existingInternalId}")
-        // Use existingInternalId for all operations
-        Map<String, Object> existingBlueprintData = blueprintMigration.getBlueprintById(existingInternalId, rest)
-        if (existingBlueprintData.isEmpty()) {
-            println("Failed to retrieve existing blueprint by internalId: ${existingInternalId}")
+    if (existingInternalId && methodData?.equalsIgnoreCase("update")) {
+
+        if (existingInternalId == internalId) {
+            println("Default blueprint can't be updated.")
         } else {
-            String blueprintCode = existingBlueprintData.code
+            Map<String, Object> existingBlueprintData = blueprintMigration.getBlueprintById(existingInternalId, rest)
+            if (existingBlueprintData.isEmpty()) {
+                println("Failed to retrieve existing blueprint by internalId: ${existingInternalId}")
+            } else {
+                String blueprintCode = existingBlueprintData.code
 
-            def editedBlueprint = blueprintMigration.editBlueprint(blueprintCode.toString(), rest)
-            String copiedBlueprintInternalId = editedBlueprint._internalId.toString()
+                def editedBlueprint = blueprintMigration.editBlueprint(blueprintCode.toString(), rest)
+                String copiedBlueprintInternalId = editedBlueprint._internalId.toString()
 
-            blueprintMigration.deleteExistingModules(copiedBlueprintInternalId, rest)
+                blueprintMigration.deleteExistingModules(copiedBlueprintInternalId, rest)
 
-            blueprintMigration.postModulesToBlueprint(copiedBlueprintInternalId, parsedData.modules, rest)
+                blueprintMigration.postModulesToBlueprint(copiedBlueprintInternalId, parsedData.modules, rest)
 
-            blueprintMigration.postVisualsToBlueprint(copiedBlueprintInternalId, parsedData.visuals, rest)
-            blueprintMigration.deleteExistingFields(copiedBlueprintInternalId, rest)
+                blueprintMigration.postVisualsToBlueprint(copiedBlueprintInternalId, parsedData.visuals, rest)
+                blueprintMigration.deleteExistingFields(copiedBlueprintInternalId, rest)
 
-            def sectionIdsMap = blueprintMigration.deleteExistingFields(copiedBlueprintInternalId, rest)
+                def sectionIdsMap = blueprintMigration.deleteExistingFields(copiedBlueprintInternalId, rest)
 
-            parsedData.details.sections.each { section ->
-                blueprintMigration.processSectionFields(copiedBlueprintInternalId, section, sectionIdsMap, rest)
+                parsedData.details.sections.each { section ->
+                    blueprintMigration.processSectionFields(copiedBlueprintInternalId, section, sectionIdsMap, rest)
+                }
+                blueprintMigration.processTemplateSection(copiedBlueprintInternalId, parsedData.details.templateSections, sectionIdsMap, rest)
+
+                blueprintMigration.deleteMatchingRules(copiedBlueprintInternalId, rest)
+
+                parsedData.rules.each { rule ->
+                    blueprintMigration.postRule(copiedBlueprintInternalId, rule, rest)
+                }
+
+                Map<String, Object> putData = [
+                        mode: "PUBLISHED"
+                ]
+
+                blueprintMigration.updateBlueprint(copiedBlueprintInternalId, putData, rest)
+                println("Successfully updated blueprint!")
+
             }
-            blueprintMigration.processTemplateSection(copiedBlueprintInternalId, parsedData.details.templateSections, sectionIdsMap, rest)
-
-            blueprintMigration.deleteMatchingRules(copiedBlueprintInternalId, rest)
-
-            parsedData.rules.each { rule ->
-                blueprintMigration.postRule(copiedBlueprintInternalId, rule, rest)
-            }
-
-            Map<String, Object> putData = [
-                    mode: "PUBLISHED"
-            ]
-
-            blueprintMigration.updateBlueprint(copiedBlueprintInternalId, putData, rest)
-            println("Successfully updated blueprint!")
-
         }
     } else {
-        println("No existing blueprint Id found. Proceeding to create new blueprint.")
         Map<String, Object> createdBlueprint = blueprintMigration.createBlueprintByPost(internalId, parsedData.details.name, rest)
         if (createdBlueprint.isEmpty()) {
             println("Failed to create blueprint.")

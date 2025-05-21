@@ -1,385 +1,441 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>API Request View</title>
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
     <style>
         body {
-          font-family: Arial, sans-serif;
-          margin: 20px;
-        }
+       font-family: Arial, sans-serif;
+       margin: 20px;
+   }
+   /*
+   .page-body {
+       height: 98vh;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       background-color: #f4f4f4;
+   } */
+   /*
+   .mainPage {
+       min-width: 200px;
+   } */
 
-        .Container {
-          margin: 0 auto;
-          padding: 20px;
-          border: 1px solid #ddd;
-          border-radius: 8px;
-        }
+   .Container {
+       margin: 0 auto;
+       padding: 20px;
+       border: 1px solid #ddd;
+       border-radius: 8px;
+       min-width: 50%;
+       width: 60%;
+       height: 90vh;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       flex-direction: row;
+       border: 2px solid #9005fa;
+       border-radius: 10px;
+       padding: 20px;
+       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+   }
 
-        .main-container {
-          border-width: 10px;
-          border-style: inset;
-          border-radius: 5px;
-          border-color: #9005fa;
-          margin: 20px;
-        }
+   .main-page-container {
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       gap: 20px;
+   }
 
-        .tab-button {
-          padding: 10px;
-          margin-right: 5px;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-          background-color: #8307fe;
-          cursor: pointer;
-        }
+   .main-page-heading {
+       font-size: 2rem;
+       font-weight: 600;
+       color: white;
+       background: linear-gradient(90deg, #9005fa, #b452f9);
+       padding: 0.75rem 1.5rem;
+       border-radius: 12px;
+       display: inline-block;
+       box-shadow: 0 6px 12px rgba(144, 5, 250, 0.2);
+       margin-bottom: 1.5rem;
+   }
 
-        .tab-button:hover {
-          background-color: #9005fa;
-        }
+   .main-container {
+       border-width: 10px;
+       border-style: inset;
+       border-radius: 5px;
+       border-color: #9005fa;
+       margin: 20px;
+   }
 
-        .custom-btn {
-          width: fit-content;
-        }
-        .input-option {
-          width: fit-content;
-        }
+   .tab-button {
+       padding: 10px;
+       margin-right: 5px;
+       border: 1px solid #ddd;
+       border-radius: 4px;
+       background-color: #8307fe;
+       cursor: pointer;
+       font-size: 12px;
+       padding: 10px 12px 10px 12px;
+       width: 90px;
+       border-radius: 5px;
+   }
 
-        .tab-content {
-          margin-top: 10px;
-          display: flex;
-          flex-direction: column;
-        }
+   .front-page-button {
+       margin: 0px 20px 0px 20px;
+   }
 
-        input[type="text"] {
-          width: calc(100% - 20px);
-          padding: 10px;
-          margin: 5px 0;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-        }
+   .tab-button:hover {
+       background-color: #9005fa;
+   }
 
-        button {
-          padding: 10px 15px;
-          border: none;
-          border-radius: 4px;
-          background-color: #007bff;
-          color: white;
-          cursor: pointer;
-        }
+   .custom-btn {
+       width: fit-content;
+   }
 
-        button:hover {
-          background-color: #0056b3;
-        }
+   .input-option {
+       width: fit-content;
+   }
 
-        .output {
-          margin-top: 20px;
-          display: flex;
-          flex-direction: column;
-        }
+   .tab-content {
+       margin-top: 10px;
+       display: flex;
+       flex-direction: column;
+   }
 
-        .output pre {
-          background-color: #f8f9fa;
-          padding: 15px;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-          overflow-x: auto;
-        }
 
-        #Req {
-          width: 150px;
-          padding: 8px;
-          font-size: 14px;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          background-color: #f9f9f9;
-          color: #333;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          cursor: pointer;
-          transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
+   .blueprint-heading {
+       font-size: 24px;
+       color: #2c3e50;
+       margin-bottom: 20px;
+       text-align: center;
+     }
 
-        #Req:focus {
-          border-color: #757f8a;
-          outline: none;
-          box-shadow: 0 0 4px rgba(236, 240, 244, 0.5);
-        }
+   input[type="text"] {
+       width: calc(100% - 20px);
+       padding: 10px;
+       margin: 5px 0;
+       border: 1px solid #ddd;
+       border-radius: 4px;
+   }
 
-        #Req option {
-          padding: 8px;
-          color: #fff;
-        }
+   button {
+       padding: 10px 15px;
+       border: none;
+       border-radius: 4px;
+       background-color: #007bff;
+       color: white;
+       cursor: pointer;
+   }
 
-        .option-get {
-          background-color: #10ed69;
-        }
+   button:hover {
+       background-color: #0056b3;
+   }
 
-        .option-put {
-          background-color: #ffc107;
-        }
+   .output {
+       margin-top: 20px;
+       display: flex;
+       flex-direction: column;
+   }
 
-        .option-delete {
-          background-color: #dc3545;
-        }
+   .output pre {
+       background-color: #f8f9fa;
+       padding: 15px;
+       border: 1px solid #ddd;
+       border-radius: 4px;
+       overflow-x: auto;
+   }
 
-        .option-post {
-          background-color: #eef10b;
-        }
+   .status-box {
+        padding: 8px 16px;
+       margin-top: 20px;
+       margin-bottom: 2px;
+       font-size: 12px;
+       border-radius: 5px;
+       display: inline-block;
+       background-color: #ffffff;
+       color: #000;
+       transition: all 0.3s ease;
+       width: auto;
+       max-width: fit-content;
+   }
 
-        .option-patch {
-          background-color: #f3aa0d;
-        }
+   .status-success {
+       background-color: #28a745;
+       color: #ffffff;
+   }
 
-        .field-container {
-          display: flex;
-          align-items: center;
-        }
+   .status-error {
+       background-color: #dc3545;
+       color: #ffffff;
+   }
 
-        .field-container input {
-          flex: 1;
-          margin-right: 5px;
-        }
+   .status-client-error {
+         background-color: #ffc107;
+         color: black;
+   }
 
-        .remove-button {
-          background-color: #dc3545;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          padding: 5px 10px;
-        }
+   .status-warning {
+       background-color: #ffc107;
+       color: black;
+   }
 
-        .remove-button:hover {
-          background-color: #c82333;
-        }
+   .status-server-error {
+       background-color: #dc3545;
+       color: white;
+   }
 
-        .action-buttons {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-top: 10px;
-        }
 
-        .action-buttons button {
-          margin-left: 5px;
-        }
+   #Req {
+       width: 150px;
+       padding: 8px;
+       font-size: 14px;
+       border: 1px solid #ccc;
+       border-radius: 4px;
+       background-color: #f9f9f9;
+       color: #333;
+       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+       cursor: pointer;
+       transition: border-color 0.3s ease, box-shadow 0.3s ease;
+   }
 
-        .iframe-container {
-          position: relative;
-          width: 100%;
-          padding-bottom: 56.25%;
-          height: 0;
-          overflow: hidden;
-        }
+   #Req:focus {
+       border-color: #757f8a;
+       outline: none;
+       box-shadow: 0 0 4px rgba(236, 240, 244, 0.5);
+   }
 
-        .iframe-container iframe {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-        }
+   .field-container {
+       display: flex;
+       align-items: center;
+   }
 
-        .loader {
-          animation: spin 0.6s linear infinite;
-        }
+   .field-container input {
+       flex: 1;
+       margin-right: 5px;
+   }
 
-        @keyframes spin {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
-        }
+   .remove-button {
+       background-color: #dc3545;
+       color: white;
+       border: none;
+       border-radius: 4px;
+       cursor: pointer;
+       padding: 5px 10px;
+   }
 
-        .path {
-          stroke: #3498db;
-        }
+   .remove-button:hover {
+       background-color: #c82333;
+   }
 
-        .json-output {
-          font-family: "Courier New", monospace;
-          white-space: pre-wrap;
-          word-wrap: break-word;
-          padding: 15px;
-          border: 1px solid #ddd;
-          background-color: #f5f5f5;
-          margin-top: 20px;
-          max-height: 400px;
-          overflow-y: auto;
-        }
+   .action-buttons {
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       margin-top: 10px;
+   }
 
-        .plain-response {
-          font-family: "Courier New", monospace;
-          padding: 15px;
-          border: 1px solid #ddd;
-          background-color: #f5f5f5;
-          margin-top: 20px;
-          max-height: 400px;
-          overflow-y: auto;
-          white-space: pre-wrap;
-          word-wrap: break-word;
-          font-size: 18px;
-        }
+   .action-buttons button {
+       margin-left: 5px;
+   }
 
-        .select-blueprint-name {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-          margin-top: 10px;
-        }
+   .iframe-container {
+       position: relative;
+       width: 100%;
+       padding-bottom: 56.25%;
+       height: 0;
+       overflow: hidden;
+   }
 
-        .select-blueprint {
-          width: 100%;
-          padding: 10px 15px;
-          font-size: 16px;
-          border: 2px solid #ddd;
-          border-radius: 5px;
-          background-color: #f9f9f9;
-          appearance: none;
-          outline: none;
-          transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
+   .iframe-container iframe {
+       position: absolute;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 100%;
+   }
 
-        .input-label {
-          font-size: 14px;
-          font-weight: 600;
-        }
+   .loader {
+       animation: spin 0.6s linear infinite;
+   }
 
-        .text-area {
-          border: 2px solid #c3b5b5;
-          margin-top: 6px;
-          margin-bottom: 6px;
-          border-radius: 4px;
-        }
-        .custom-head {
-          font-size: 14px;
-          font-weight: 500;
-          margin-top: 10px;
-        }
-        .tabs {
-          display: flex;
-          gap: 10px;
-        }
-        #Body {
-          display: none;
-        }
-        .response-action-container {
-          display: flex;
-          gap: 20px;
-        }
-        .blueprint-search-action-container {
-          display: flex;
-          gap: 6px;
-        }
-        .blueprint-name-edit-container {
-          margin-top: 10px;
-        }
-        .get-all-blueprints-container {
-          margin-top: 10px;
-        }
+   @keyframes spin {
+       0% {
+           transform: rotate(0deg);
+       }
+
+       100% {
+           transform: rotate(360deg);
+       }
+   }
+
+   .path {
+       stroke: #3498db;
+   }
+
+   .json-output {
+       font-family: "Courier New", monospace;
+       white-space: pre-wrap;
+       word-wrap: break-word;
+       padding: 15px;
+       border: 1px solid #ddd;
+       background-color: #f5f5f5;
+       margin-top: 20px;
+       max-height: 400px;
+       overflow-y: auto;
+   }
+
+   .plain-response {
+       font-family: "Courier New", monospace;
+       padding: 15px;
+       border: 1px solid #ddd;
+       background-color: #f5f5f5;
+       margin-top: 20px;
+       max-height: 400px;
+       overflow-y: auto;
+       white-space: pre-wrap;
+       word-wrap: break-word;
+       font-size: 18px;
+   }
+
+   .select-blueprint-name {
+       display: flex;
+       flex-direction: column;
+       gap: 10px;
+       margin-top: 10px;
+   }
+
+   .select-blueprint {
+       width: 100%;
+       padding: 10px 15px;
+       font-size: 16px;
+       border: 2px solid #ddd;
+       border-radius: 5px;
+       background-color: #f9f9f9;
+       appearance: none;
+       outline: none;
+       transition: border-color 0.3s ease, box-shadow 0.3s ease;
+   }
+
+   .input-label {
+       font-size: 14px;
+       font-weight: 600;
+   }
+
+   .text-area {
+       border: 2px solid #c3b5b5;
+       margin-top: 6px;
+       margin-bottom: 6px;
+       border-radius: 4px;
+   }
+
+   .text-area {
+       width: 100%;
+       max-width: 100%;
+       box-sizing: border-box;
+       padding: 10px;
+       font-family: monospace;
+       font-size: 14px;
+       resize: vertical;
+       max-height: 20vh;
+       overflow-y: auto;
+       border: 1px solid #ccc;
+       border-radius: 5px;
+     }
+
+     .text-area-response {
+       height: 20vh;
+     }
+
+   .custom-head {
+       font-size: 14px;
+       font-weight: 500;
+       margin-top: 10px;
+   }
+
+   .tabs {
+       display: flex;
+       gap: 10px;
+   }
+
+   #Body {
+       display: none;
+   }
+
+   .response-action-container {
+       display: flex;
+       gap: 20px;
+   }
+
+   .blueprint-name-edit-container {
+       margin-top: 10px;
+   }
+
+   .get-all-blueprints-container {
+       margin-top: 10px;
+   }
     </style>
-</head>
-<body>
-<div class="Container main-container">
-    <label>
-        <input type="checkbox" id="clarity" checked="true" /> Default-Path
-    </label>
-    <div style="padding: 3">
-        <select name="Request" id="Req">
-            <option value="Get" class="option-get">GET</option>
-            <option value="Put" class="option-put">PUT</option>
-            <option value="Delete" class="option-delete">DELETE</option>
-            <option value="Post" class="option-post">POST</option>
-            <option value="Patch" class="option-patch">PATCH</option>
-        </select>
 
-        <input type="text" placeholder="URL" id="input" style="width: 500px" />
+<body class="page-body">
+<!-- Main page content with buttons -->
+<div id="mainPage" class="Container">
+    <div class="main-page-container">
+        <h2 class="main-page-heading">Choose Operation Type</h2>
+        <div>
+            <button onclick="showRestSection()" class="front-page-button tab-button">REST</button>
+            <button onclick="showBlueprintSection()" class="front-page-button tab-button">Blueprint</button>
+        </div>
+    </div>
+</div>
+<!-- REST Section -->
+<div id="restSection" class="Container" style="display: none;">
+    <div id="restContainer" style="display: block;">
+        <label>
+            <input type="checkbox" id="clarity" checked="true" /> Relative-Path
+        </label>
+        <div style="padding: 3">
+            <select name="Request" id="Req">
+                <option value="Get" class="option-get">GET</option>
+                <option value="Put" class="option-put">PUT</option>
+                <option value="Delete" class="option-delete">DELETE</option>
+                <option value="Post" class="option-post">POST</option>
+                <option value="Patch" class="option-patch">PATCH</option>
+            </select>
+            <input type="text" placeholder="URL" id="input" style="width: 500px" />
+            <button onclick="input()" class="tab-button">SEND</button>
+        </div>
+        <br />
+        <div class="tabs">
+            <button class="tab-button" onclick="openTab('Body')">Body</button>
+            <button class="tab-button" onclick="openTab('Headers')">Headers</button>
+            <button class="tab-button" onclick="openTab('Params')">Params</button>
+            <button class="tab-button" onclick="clearRequest()">
+                Clear Req
+            </button>
+            <button id="hideBtn" class="tab-button" onclick="hideRestContainer()"
+                    style="display: none; width: 120px">Hide Request</button>
 
-        <button onclick="input()">SEND</button>
-
-        <svg
-                class="loader"
-                id="myLoader"
-                width="24"
-                height="24"
-                viewBox="0 0 50 50"
-                style="display: none"
-        >
-            <circle
-                    class="path"
-                    cx="25"
-                    cy="25"
-                    r="20"
-                    fill="none"
-                    stroke="#3498db"
-                    stroke-width="4"
-            />
-        </svg>
+        </div>
     </div>
     <br />
-    <div class="tabs">
-        <button class="tab-button" onclick="openTab('Body')">Body</button>
-        <button class="tab-button" onclick="openTab('Headers')">Headers</button>
-        <button class="tab-button" onclick="openTab('Params')">Params</button>
-        <button class="tab-button" onclick="download()">Download</button>
-        <button
-                class="tab-button"
-                onclick="document.getElementById('input').value = null;document.getElementById('json').value = null "
-        >
-            Clear
-        </button>
-        <button class="tab-button" onclick="mux()">MUX</button>
-        <button class="tab-button" onclick="openTab('Blue')">
-            Read Blueprint
-        </button>
-        <button class="tab-button" onclick="showCopyBlueprint()">
-            Write Blueprint
-        </button>
-    </div>
-    <br />
-    <button id="sectionCall" onclick="DisplayControl()">Hide ⬆</button>
-
     <div id="sectionData" class="input-section-container">
         <div id="Body" class="tab-content">
             <select name="scrip" id="scp" class="input-option">
                 <option value="Json" id="drop">Json</option>
             </select>
-            <textarea
-                    id="json"
-                    rows="10"
-                    cols="100"
-                    style="overflow: auto"
-                    spellcheck="false"
-                    class="text-area"
-                    required
-            ></textarea>
-            <button class="tab-button custom-btn" onclick="copyBlueprint()">
+            <textarea id="json" rows="10" cols="100" style="overflow: auto" spellcheck="false" class="text-area"
+                      required></textarea>
+            <button id="runButton" class="tab-button custom-btn" onclick="copyBlueprint()" style="display: none;">
                 Run
             </button>
         </div>
-
-        <div id="Headers" class="tab-content" style="display: none">
+        <div id="Headers" class="tab-content" style="display: none;">
             <h3>Header</h3>
             <div id="headers-container">
                 <div class="field-container">
-                    <input
-                            type="text"
-                            placeholder="key"
-                            class="header-key"
-                            id="headkey"
-                    />
-                    <input
-                            type="text"
-                            placeholder="value"
-                            class="header-value"
-                            id="headval"
-                    />
-                    <button
-                            class="remove-button"
-                            onclick="removeField(this, 'headers-container')"
-                    >
+                    <input type="text" placeholder="key" class="header-key" id="headkey" />
+                    <input type="text" placeholder="value" class="header-value" id="headval" />
+                    <button class="remove-button" onclick="removeField(this, 'headers-container')">
                         Remove
                     </button>
                 </div>
@@ -388,245 +444,13 @@
                 <button onclick="addHeaderField()">Add Header</button>
             </div>
         </div>
-
-        <div id="Blue" class="tab-content" style="display: none">
-            <label class="input-label">Get blueprint by ID</label>
-            <div id="Blue-container">
-                <div class="field-container">
-                    <input
-                            type="text"
-                            placeholder="Enter your blueprint id..."
-                            id="BlueprintId"
-                            onchange="getBlueprintId(event)"
-                    />
-                    <div class="blueprint-search-action-container">
-                        <button class="tab-button" onclick="fetchBlueprintById()">
-                            Search
-                        </button>
-                        <button
-                                class="tab-button custom-btn"
-                                onclick="fetchBlueprintDetails()"
-                        >
-                            Get All details
-                        </button>
-
-                        <button class="tab-button" onclick="fetchMUXBlueprintById()">
-                            MUX
-                        </button>
-                    </div>
-                </div>
-                <div style="display: flex">
-                    <button
-                            onclick="Prop()"
-                            class="tab-button"
-                            style="display: none"
-                            id="properties"
-                    >
-                        Properties, Create from Template, Modules
-                    </button>
-                    <button
-                            onclick="Rules()"
-                            class="tab-button"
-                            style="display: none"
-                            id="rules"
-                    >
-                        Rules
-                    </button>
-                    <button
-                            onclick="Visuals()"
-                            class="tab-button"
-                            style="display: none"
-                            id="visuals"
-                    >
-                        Visuals
-                    </button>
-                    <button
-                            onclick="Actions()"
-                            class="tab-button"
-                            style="display: none"
-                            id="actions"
-                    >
-                        Actions
-                    </button>
-                </div>
-
-                <div class="select-blueprint-name">
-                    <label for="selectBlueprint" class="input-label"
-                    >Get blueprint by name</label
-                    >
-                    <select
-                            id="selectBlueprint"
-                            class="select-blueprint"
-                            onchange="getBlueprintId(event)"
-                    >
-                        <option value="" disabled selected>Select a blueprint</option>
-                    </select>
-                    <button
-                            class="tab-button custom-btn"
-                            onclick="fetchBlueprintDetails()"
-                    >
-                        Get all details
-                    </button>
-                </div>
-                <div class="blueprint-name-edit-container">
-                    <label class="input-label">Edit Blueprint Name</label>
-                    <div class="field-container">
-                        <input
-                                type="text"
-                                placeholder="Change your blueprint name here..."
-                                id="NameBlue"
-                        />
-                        <button
-                                class="tab-button"
-                                onclick="EditNameBlue()"
-                                style="background-color: rgb(4, 175, 4)"
-                        >
-                            Edit
-                        </button>
-                    </div>
-                </div>
-
-                <div class="get-all-blueprints-container">
-                    <h3 class="input-label">Get Blueprints</h3>
-                    <div>
-                        <br />
-                        <div>
-                            <label>
-                                <input
-                                        type="checkbox"
-                                        name="code"
-                                        value="code"
-                                        class="option"
-                                />
-                                Code
-                            </label>
-                            <label>
-                                <input
-                                        type="checkbox"
-                                        name="type"
-                                        value="type"
-                                        class="option"
-                                />
-                                Type
-                            </label>
-                            <label>
-                                <input
-                                        type="checkbox"
-                                        name="blueprintLevel"
-                                        value="blueprintLevel"
-                                        class="option"
-                                />
-                                Blueprint Level
-                            </label>
-                            <label>
-                                <input
-                                        type="checkbox"
-                                        name="isDefault"
-                                        value="isDefault"
-                                        class="option"
-                                />
-                                Is-Default
-                            </label>
-                            <label>
-                                <input
-                                        type="checkbox"
-                                        name="isSystem"
-                                        value="isSystem"
-                                        class="option"
-                                />
-                                Is-System
-                            </label>
-                        </div>
-
-                        <br />
-
-                        <div>
-                            <label>
-                                <input
-                                        type="checkbox"
-                                        name="publishedBy"
-                                        value="publishedBy"
-                                        class="option"
-                                />Published By
-                            </label>
-                            <label>
-                                <input
-                                        type="checkbox"
-                                        name="lastPublishedDate"
-                                        value="lastPublishedDate"
-                                        class="option"
-                                />
-                                Last Published Date
-                            </label>
-                            <label>
-                                <input
-                                        type="checkbox"
-                                        name="lastUpdatedBy"
-                                        value="lastUpdatedBy"
-                                        class="option"
-                                />
-                                Last Updated By
-                            </label>
-                            <label>
-                                <input
-                                        type="checkbox"
-                                        name="lastUpdatedDate"
-                                        value="lastUpdatedDate"
-                                        class="option"
-                                />
-                                Last Updated Date
-                            </label>
-                            <label>
-                                <input
-                                        type="checkbox"
-                                        name="classifier"
-                                        value="classifier"
-                                        class="option"
-                                />
-                                Classifier
-                            </label>
-                            <label>
-                                <input
-                                        type="checkbox"
-                                        name="_isFavorite"
-                                        value="_isFavorite"
-                                        class="option"
-                                />
-                                Is-Favorite
-                            </label>
-
-                            <button
-                                    onclick="checkAll(true)"
-                                    class="tab-button"
-                                    style="color: #10ed69; background-color: white"
-                            >
-                                Check All
-                            </button>
-                            <button
-                                    onclick="checkAll(false)"
-                                    class="tab-button"
-                                    style="color: red; background-color: white"
-                            >
-                                UnCheck All
-                            </button>
-                            <br />
-                        </div>
-                    </div>
-                    <button onclick="blueprints()" class="tab-button">Get All</button>
-                </div>
-            </div>
-        </div>
-
         <div id="Params" class="tab-content" style="display: none">
             <h3>Param</h3>
             <div id="params-container">
                 <div class="field-container">
                     <input type="text" placeholder="key" class="param-key" />
                     <input type="text" placeholder="value" class="param-value" />
-                    <button
-                            class="remove-button"
-                            onclick="removeField(this, 'params-container')"
-                    >
+                    <button class="remove-button" onclick="removeField(this, 'params-container')">
                         Remove
                     </button>
                 </div>
@@ -636,7 +460,6 @@
             </div>
         </div>
     </div>
-
     <div class="output" style="padding: 1%; padding-left: 0">
         <div class="response-action-container">
             <button class="tab-button custom-btn" onclick="copyResponse()">
@@ -646,666 +469,939 @@
                 Clear Response
             </button>
         </div>
-        <textarea
-                id="Out"
-                rows="30"
-                cols="100"
-                style="overflow: auto"
-                spellcheck="false"
-                class="text-area"
-                readonly
-        ></textarea>
-        <div class="iframe-container">
-            <iframe
-                    src=""
-                    title="View"
-                    id="view"
-                    style="width: 100%; height: 100%; padding: 2%; padding-left: 0"
-                    allowfullscreen
-            ></iframe>
-        </div>
+        <div id="statusBox" class="status-box"></div>
+        <textarea id="Out" rows="30" cols="100" style="overflow: auto" spellcheck="false"
+                  class="text-area text-area-response out-textarea" readonly></textarea>
+        <button onclick="goBackToMain()" class="tab-button" style="width: 150px; margin-top: 10px;">Return To Main
+            Page</button>
     </div>
 </div>
+</div>
+
+<!-- Blueprint Section -->
+<div id="blueprintSection" class="Container" style="display: none;">
+    <h2 class="blueprint-heading">Blueprint Operations</h2>
+    <input type="hidden" id="blueprintActionType" value="" />
+    <div id="blueprintOptions">
+        <button class="tab-button" onclick="showCopyBlueprint('Create')">Create</button>
+        <button class="tab-button" onclick="showCopyBlueprint('Update')">Update</button>
+        <button class="tab-button" onclick="getAllBlueprint()">Get All</button>
+        <button class="tab-button" onclick="getBlueprint()">Get</button>
+        <button class="tab-button" onclick="renameBlueprint()">Rename</button>
+        <button id="hideBlueprintButton" class="tab-button" style="width: 120px" onclick="hideBlueprintContainer()">
+            Hide Request
+        </button>
+    </div>
+
+    <div id="blueprintBody" class="tab-content">
+        <select name="scrip" id="scp" class="input-option">
+            <option value="Json" id="drop">Json</option>
+        </select>
+        <textarea id="json" rows="10" cols="100" style="overflow: auto" spellcheck="false" class="text-area"
+                  required></textarea>
+        <button id="runButtonBlueprint" class="run-blueprint-btn tab-button custom-btn" onClick="copyBlueprint()">Create Blueprint</button>
+    </div>
+
+    <div id="Blue" class="tab-content" style="display: none">
+        <label class="input-label">Get blueprint by ID</label>
+        <div id="Blue-container">
+            <div class="field-container">
+                <input type="text" placeholder="Enter your blueprint id..." id="BlueprintId"
+                       onchange="getBlueprintId(event)" />
+            </div>
+            <div class="">
+                <button class="tab-button" onclick="fetchBlueprintById()">
+                    Search
+                </button>
+                <button class="tab-button custom-btn" onclick="fetchBlueprintDetails()">
+                    Get All Details
+                </button>
+                <button onclick="Prop()" class="tab-button" id="properties">
+                    Properties
+                </button>
+                <button onclick="Rules()" class="tab-button" id="rules">
+                    Rules
+                </button>
+                <button onclick="Visuals()" class="tab-button" id="visuals">
+                    Visuals
+                </button>
+                <button onclick="Actions()" class="tab-button" id="actions">
+                    Actions
+                </button>
+            </div>
+
+            <div class="select-blueprint-name">
+                <label for="selectBlueprint" class="input-label">Get blueprint by name</label>
+                <select id="selectBlueprint" class="select-blueprint" onchange="getBlueprintId(event)">
+                    <option value="" disabled selected>Select your blueprint name</option>
+                </select>
+                <div>
+                    <button class="tab-button" onclick="fetchBlueprintById()">
+                        Search
+                    </button>
+                    <button class="tab-button custom-btn" onclick="fetchBlueprintDetails()">
+                        Get All Details
+                    </button>
+                    <button onclick="Prop()" class="tab-button" id="properties">
+                        Properties
+                    </button>
+                    <button onclick="Rules()" class="tab-button" id="rules">
+                        Rules
+                    </button>
+                    <button onclick="Visuals()" class="tab-button" id="visuals">
+                        Visuals
+                    </button>
+                    <button onclick="Actions()" class="tab-button" id="actions">
+                        Actions
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="getAllBlueprintContainer" class="get-all-blueprints-container" style="display: none;">
+        <h3 class="input-label">Get Blueprints</h3>
+        <div>
+            <br />
+            <div>
+                <label><input type="checkbox" name="code" value="code" class="option" /> Code</label>
+                <label><input type="checkbox" name="type" value="type" class="option" /> Type</label>
+                <label><input type="checkbox" name="blueprintLevel" value="blueprintLevel" class="option" />
+                    Blueprint
+                    Level</label>
+                <label><input type="checkbox" name="isDefault" value="isDefault" class="option" />
+                    Is-Default</label>
+                <label><input type="checkbox" name="isSystem" value="isSystem" class="option" /> Is-System</label>
+            </div>
+
+            <br />
+
+            <div>
+                <label><input type="checkbox" name="publishedBy" value="publishedBy" class="option" /> Published
+                    By</label>
+                <label><input type="checkbox" name="lastPublishedDate" value="lastPublishedDate" class="option" />
+                    Last
+                    Published Date</label>
+                <label><input type="checkbox" name="lastUpdatedBy" value="lastUpdatedBy" class="option" /> Last
+                    Updated
+                    By</label>
+                <label><input type="checkbox" name="lastUpdatedDate" value="lastUpdatedDate" class="option" /> Last
+                    Updated
+                    Date</label>
+                <label><input type="checkbox" name="classifier" value="classifier" class="option" />
+                    Classifier</label>
+                <label><input type="checkbox" name="_isFavorite" value="_isFavorite" class="option" />
+                    Is-Favorite</label>
+                <br />
+                <button onclick="checkAll(true)" class="tab-button custom-btn"
+                        style="color: #10ed69; background-color: white; margin: 10px 10px 20px 0px;">Check
+                    All</button>
+                <button onclick="checkAll(false)" class="tab-button custom-btn"
+                        style="color: red; background-color: white; margin: 10px 10px 20px 10px;">UnCheck
+                    All</button>
+                <br />
+            </div>
+        </div>
+        <button onclick="blueprints()" class="tab-button">Get All</button>
+    </div>
+
+    <div id="BlueprintRenameContainer" class="tab-content" style="display: none">
+        <label class="input-label">Get blueprint by ID</label>
+        <div id="Blue-container">
+            <div class="field-container">
+                <input type="text" placeholder="Enter your blueprint id..." id="BlueprintIdRename" />
+            </div>
+            <div class="field-container">
+                <input type="text" placeholder="Enter Name" id="NameBlue" />
+            </div>
+            <button class="tab-button" onclick="EditNameBlue()" style="background-color: rgb(4, 175, 4)">
+                Edit
+            </button>
+        </div>
+    </div>
+
+    <br />
+    <div class="output" style="padding: 1%; padding-left: 0">
+        <div class="response-action-container">
+            <button class="tab-button custom-btn" onclick="copyResponse()">
+                Copy Response
+            </button>
+            <button class="tab-button custom-btn" onclick="clearResponse()">
+                Clear Response
+            </button>
+        </div>
+        <div id="statusBox" class="status-box"></div>
+        <textarea id="Out" rows="30" cols="100" style="overflow: auto" spellcheck="false"
+                  class="text-area text-area-response out-textarea" readonly></textarea>
+    </div>
+    <button id="backToMainBlueprint" onclick="goBackToMain()" class="tab-button"
+            style="width: 150px; margin-top: 10px;">Return To Main Page</button>
+</div>
+
 <script>
     url = "";
-    headers = {};
-    params = {};
-    ans = "";
-    display = true;
-    blueprintId = null;
-
-    function DisplayControl() {
-      if (display) {
-        display = !display;
-        document.getElementById("sectionCall").innerText = "Show ⬇";
-        document.getElementById("sectionData").style.display = "none";
-      } else {
-        display = !display;
-        document.getElementById("sectionCall").innerText = "Hide ⬆";
-        document.getElementById("sectionData").style.display = "block";
-      }
-    }
-    function mux() {
-      let modern = window.location.origin + "/pm";
-      document.getElementById("view").src = modern;
-    }
-    function EditNameBlue() {
-      const name = document.getElementById("NameBlue").value;
-      const ID = document.getElementById("BlueprintId").value;
-      const bodyBlue =
-        '{"d": [{"_internalId": ' + ID + ', "name": "' + name + '"}]}';
-
-      console.log(bodyBlue + " - Body");
-      url = "private/blueprints";
-
-      document.getElementById("Req").value = "Put";
-      document.getElementById("json").value = bodyBlue;
-
-      document.getElementById("headkey").value = "x-api-force-patch";
-      document.getElementById("headval").value = "true";
-
-      console.log(document.getElementById("json").value);
-
-      input();
-
-      document.getElementById("headkey").value = "";
-      document.getElementById("headval").value = "";
-    }
-
-    function showCopyBlueprint() {
-      const copyBlueprintContainer = document.getElementById("sectionData");
-      const copyBodyContainer = document.getElementById("Body");
-      const readBlueprintContainer = document.getElementById("Blue");
-      const responseTextArea = document.getElementById("Out");
-      responseTextArea.value = "";
-      readBlueprintContainer.style.display = "none";
-      copyBlueprintContainer.style.display = "block";
-      copyBodyContainer.style.display = "flex";
-    }
-
-    function copyResponse() {
-      const responseText = document.getElementById("Out");
-
-      if (responseText.value.trim() === "") {
-        alert("Textarea is empty. Nothing to copy.");
-        return;
-      }
-
-      responseText.select();
-      responseText.setSelectionRange(0, 99999);
-
-      try {
-        const successful = document.execCommand("copy");
-        if (successful) {
-          alert("Text copied to clipboard!");
-        } else {
-          alert("Failed to copy text.");
-        }
-      } catch (err) {
-        console.error("Failed to copy text:", err);
-        alert("Failed to copy text.");
-      }
-    }
-
-    function clearResponse() {
-      document.getElementById("Out").value = "";
-      document.getElementById("view").src = "";
-    }
-
-    function checkAll(check) {
-      const checkboxes = document.querySelectorAll(".option");
-      checkboxes.forEach((checkbox) => {
-        checkbox.checked = check;
-      });
-    }
-
-    function Prop() {
-      const ID = document.getElementById("BlueprintId").value;
-
-      url = "private" + "/blueprintData/" + ID;
-
-      console.log("Properties - " + url);
-      input();
-    }
-
-    async function getBlueprints() {
-      url =
-        window.location.origin +
-        "/ppm/rest/v1/private/blueprints/?fields=name,type,blueprintLevel,mode,isDefault,isSystem,publishedBy,lastPublishedDate,lastUpdatedBy,lastUpdatedDate,classifier,_isFavorite&filter=((isSystem+!=+true)+and+(isPrivate+=+false)+and+(mode+=+'PUBLISHED')+and+(blueprintLevel+=+1))&limit=100&tsvParams=(workEffortUnit=hours)";
-
-      const header = new Headers();
-      const sessionCookie = readSessionCookie();
-      header.append("Authtoken", sessionCookie);
-      header.append("Content-Type", "application/json");
-
-      for (const key in headers) {
-        if (headers[key]) {
-          header.append(key, headers[key]);
-        }
-      }
-
-      const response = await fetch(url, {
-        method: "GET",
-        headers: header,
-      });
-
-      const data = await response.json();
-
-      const results = data._results;
-
-      const selectBlueprintElement =
-        document.getElementById("selectBlueprint");
-
-      selectBlueprintElement.innerHTML = "";
-
-      const defaultOption = document.createElement("option");
-      defaultOption.value = "";
-      defaultOption.disabled = true;
-      defaultOption.selected = true;
-      defaultOption.textContent = "Select a blueprint";
-      selectBlueprintElement.appendChild(defaultOption);
-
-      results.forEach((eachBlueprint) => {
-        const newOption = document.createElement("option");
-        newOption.value = eachBlueprint._internalId;
-        newOption.text = eachBlueprint.name;
-        selectBlueprintElement.appendChild(newOption);
-      });
-
-      console.log(`Getting blueprints ${data}`);
-    }
-
-    function getBlueprintId(event) {
-      blueprintId = event.target.value;
-      console.log(blueprintId);
-    }
-
-    function Visuals() {
-      const ID = document.getElementById("BlueprintId").value;
-
-      url =
-        "private/availableVisuals?filter=(( blueprintType = PROJECT ) and ( category = VISUAL ) and ( blueprintId = " +
-        ID +
-        " ))";
-
-      console.log("Visuals - " + url);
-      input();
-    }
-    function Rules() {
-      const ID = document.getElementById("BlueprintId").value;
-
-      url =
-        "private/rules?fields=name,isActive,description,lastUpdatedBy,lastUpdatedDate,objectCode&filter=(associatedInstanceId = " +
-        ID +
-        ")";
-
-      console.log("Rules - " + url);
-      input();
-    }
-    function Actions() {
-      const ID = document.getElementById("BlueprintId").value;
-
-      url =
-        "private/actionAssociations?fields=sequence,name,code,isActive,processVersionId&filter=(blueprintId = " +
-        ID +
-        ")";
-
-      console.log("Properties - " + url);
-      input();
-    }
-    function fetchMUXBlueprintById() {
-      if (!document.getElementById("clarity").checked)
-        alert("Please select Default-Path to access blueprints!");
-
-      let modern =
-        window.location.origin +
-        "/pm/#/admin/blueprints/" +
-        document.getElementById("BlueprintId").value +
-        "/view";
-      document.getElementById("view").src = modern;
-      console.log(modern);
-    }
-
-    function fetchBlueprintById() {
-      const ID = blueprintId;
-      if (!ID) alert("Please enter the ID for fetching Blueprint");
-      if (!document.getElementById("clarity").checked)
-        alert("Please select Default-Path to access blueprints!");
-
-      document.getElementById("properties").style.display = "block";
-      document.getElementById("visuals").style.display = "block";
-      document.getElementById("rules").style.display = "block";
-      document.getElementById("actions").style.display = "block";
-      url = "private/blueprints/" + ID;
-      document.getElementById("Req").value = "Get";
-
-      console.log(url);
-      input();
-    }
-
-    function blueprints() {
-      if (!document.getElementById("clarity").checked)
-        alert("Please select Default-Path to access blueprints!");
-
-      url = "private/blueprints?fields=name,";
-
-      const options = Array.from(
-        document.querySelectorAll('input[type="checkbox"]:checked')
-      );
-      const filteredOptions = options.filter(
-        (option) => option.id !== "clarity"
-      );
-
-      console.log(options);
-
-      const selected = Array.from(filteredOptions).map(
-        (option) => option.value
-      );
-
-      url = url + selected.join(", ");
-
-      url = url + "&limit=100";
-
-      console.log(url + "-----Blueprints All selected ");
-
-      input();
-    }
-
-    function openTab(tabId) {
-      const tabContents = document.querySelectorAll(".tab-content");
-      tabContents.forEach((content) => (content.style.display = "none"));
-      const responseTextArea = document.getElementById("Out");
-      responseTextArea.value = "";
-      const selectedTab = document.getElementById(tabId);
-      if (selectedTab) {
-        selectedTab.style.display = "block";
-        getBlueprints();
-      }
-    }
-
-    function readSessionCookie() {
-      const name = "sessionId=";
-      const getCookie = decodeURIComponent(document.cookie);
-      const ca = getCookie.split(";");
-      for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == " ") {
-          c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-          return c.substring(name.length, c.length);
-        }
-      }
-      return "";
-    }
-    function makeRequest(method) {
-      let body = null;
-      if (method !== "GET") {
-        body = document.getElementById("json").value;
-        if (body) {
-          try {
-            body = JSON.parse(body);
-          } catch (e) {
-            console.error("Invalid JSON format");
-            body = null;
-          }
-        }
-      }
-
-      const header = new Headers();
-      const sessionCookie = readSessionCookie();
-      header.append("Authtoken", sessionCookie);
-      header.append("Content-Type", "application/json");
-
-      for (const key in headers) {
-        if (headers[key]) {
-          header.append(key, headers[key]);
-        }
-      }
-
-      fetch(url, {
-        method: method,
-        headers: header,
-        body: method !== "GET" && body ? JSON.stringify(body) : null,
-      })
-        .then((response) => {
-          if (!response.ok) {
-            return response.json().then((errorData) => {
-              const {
-                resourceId = null,
-                httpStatus = response.status,
-                errorMessage,
-                errorCode,
-              } = errorData;
-              const formattedError = {
-                resourceId,
-                httpStatus,
-                errorMessage,
-                errorCode,
-              };
-              console.log("Error response data:", formattedError);
-              return formattedError;
-            });
-          }
-
-          const contentType = response.headers.get("content-type");
-          if (contentType && contentType.includes("application/json")) {
-            return response.json();
-          }
-        })
-        .then((data) => {
-          console.log(data);
-          document.getElementById("Out").innerHTML = JSON.stringify(
-            data,
-            null,
-            4
-          );
-          ans = JSON.stringify(data, null, 4);
-        })
-        .catch((error) => {
-          console.error("Fetch error:", error);
-          document.getElementById("Out").innerText =
-            "Error: " + error.message;
-
-          const errored_output = {
-            resourceId: null,
-            httpStatus: 400,
-            errorMessage: error.message,
-            errorCode: "FETCH_ERROR",
-          };
-          document.getElementById("Out").innerHTML = JSON.stringify(
-            errored_output,
-            null,
-            4
-          );
-        });
-    }
-
-    function input() {
-      document.getElementById("myLoader").style.display = "block";
-
-      setTimeout(() => {
-        document.getElementById("myLoader").style.display = "none";
-      }, 500);
-
-      if (url === "") url = document.getElementById("input").value;
-
-      if (url === "") alert("Please enter URL.");
-
-      const checkbox = document.getElementById("clarity");
-      if (checkbox.checked)
-        url = window.location.origin + "/ppm/rest/v1/" + url;
-
-      headers = {};
-      const headerKeys = document.querySelectorAll(".header-key");
-      const headerValues = document.querySelectorAll(".header-value");
-      headerKeys.forEach((keyField, index) => {
-        if (keyField.value) {
-          headers[keyField.value] = headerValues[index].value;
-        }
-      });
-
-      params = {};
-      const paramKeys = document.querySelectorAll(".param-key");
-      const paramValues = document.querySelectorAll(".param-value");
-      paramKeys.forEach((keyField, index) => {
-        if (keyField.value) {
-          if (params[keyField.value]) {
-            params[keyField.value] += "," + paramValues[index].value;
-          } else {
-            params[keyField.value] = paramValues[index].value;
-          }
-        }
-      });
-
-      const paramString = new URLSearchParams(params).toString();
-      if (paramString) {
-        url += "?" + paramString;
-      }
-
-      console.log("url entered: " + url);
-      console.log("Headers entered: ", headers);
-      console.log("Params entered: ", params);
-
-      getSelectedOption();
-      url = "";
-    }
-    function getSelectedOption() {
-      const selectElement = document.getElementById("Req");
-      const selectedValue = selectElement.value;
-      console.log("Request Entered: " + selectedValue);
-
-      if (selectedValue === "Get") makeRequest("GET");
-      if (selectedValue === "Post") makeRequest("POST");
-      if (selectedValue === "Patch") makeRequest("PATCH");
-      if (selectedValue === "Put") makeRequest("PUT");
-      if (selectedValue === "Delete") makeRequest("DELETE");
-    }
-    function addHeaderField() {
-      const headersContainer = document.getElementById("headers-container");
-      const headerField = document.createElement("div");
-      headerField.classList.add("field-container");
-      headerField.innerHTML = `
-                                <input type="text" placeholder="key" class="header-key">
-                                <input type="text" placeholder="value" class="header-value">
-                                <button class="remove-button" onclick="removeField(this, 'headers-container')">Remove</button>
-                                `;
-      headersContainer.appendChild(headerField);
-    }
-    function addParamField() {
-      const paramsContainer = document.getElementById("params-container");
-      const paramField = document.createElement("div");
-      paramField.classList.add("field-container");
-      paramField.innerHTML = `
-                              <input type="text" placeholder="key" class="param-key">
-                              <input type="text" placeholder="value" class="param-value">
-                              <button class="remove-button" onclick="removeField(this, 'params-container')">Remove</button>
-                              `;
-      paramsContainer.appendChild(paramField);
-    }
-    function removeField(button, containerId) {
-      const container = document.getElementById(containerId);
-      container.removeChild(button.parentElement);
-    }
-
-    function download() {
-      try {
-        if (typeof ans === "undefined" || ans === null) {
-          throw new Error("The 'ans' variable is not defined or is null.");
-        }
-
-        const json = ans;
-        const blob = new Blob([json], { type: "application/json" });
-
-        if (window.URL && window.URL.createObjectURL) {
-          const url = window.URL.createObjectURL(blob);
-
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = "data.json";
-          document.body.appendChild(a);
-          a.click();
-
-          window.URL.revokeObjectURL(url);
-          document.body.removeChild(a);
-        } else {
-          throw new Error("URL.createObjectURL is not supported.");
-        }
-      } catch (error) {
-        console.error("Download error:", error);
-      }
-    }
-    async function fetchData(visualUrl, header) {
-      try {
-        const response = await fetch(visualUrl, {
-          method: "GET",
-          headers: header,
-        });
-
-        if (!response.ok) {
-          throw new Error(
-            `Error fetching visual details: ${response.status}`
-          );
-        }
-
-        const visualData = await response.json();
-        return visualData;
-      } catch (error) {
-        console.error("Error fetching visual details:", error);
-        return null;
-      }
-    }
-    async function fetchBlueprintDetails() {
-      // blueprintId = document.getElementById("selectBlueprint").value;
-      if (!blueprintId) {
-        alert("Please enter the Blueprint ID to fetch details.");
-        return;
-      }
-      url =
-        window.location.origin +
-        "/ppm/rest/v1/private/blueprints/" +
-        blueprintId;
-      urlWithoutId = window.location.origin + "/ppm/rest/v1/";
-      document.getElementById("Req").value = "Get";
-      document.getElementById("myLoader").style.display = "block";
-
-      headers = {};
-      const headerKeys = document.querySelectorAll(".header-key");
-      const headerValues = document.querySelectorAll(".header-value");
-      headerKeys.forEach((keyField, index) => {
-        if (keyField.value) {
-          headers[keyField.value] = headerValues[index].value;
-        }
-      });
-      params = {};
-      const paramKeys = document.querySelectorAll(".param-key");
-      const paramValues = document.querySelectorAll(".param-value");
-      paramKeys.forEach((keyField, index) => {
-        if (keyField.value) {
-          if (params[keyField.value]) {
-            params[keyField.value] += "," + paramValues[index].value;
-          } else {
-            params[keyField.value] = paramValues[index].value;
-          }
-        }
-      });
-      const paramString = new URLSearchParams(params).toString();
-      if (paramString) {
-        url += "?" + paramString;
-      }
-
-      const header = new Headers();
-      const sessionCookie = readSessionCookie();
-      header.append("Authtoken", sessionCookie);
-      header.append("Content-Type", "application/json");
-
-      for (const key in headers) {
-        if (headers[key]) {
-          header.append(key, headers[key]);
-        }
-      }
-
-      const response = await fetch(
-        urlWithoutId + "private/blueprintData/" + blueprintId,
-        {
-          method: "GET",
-          headers: header,
-        }
-      );
-
-      const visualData = await fetchData(url + "/visuals/", header);
-
-      const detailedVisuals = await Promise.all(
-        visualData._results.map(async (visual) => {
-          const visualDetails = await fetchData(
-            url + "/visuals/" + visual._internalId,
-            header
-          );
-          return visualDetails;
-        })
-      );
-
-      const rulesData = await fetchData(
-        urlWithoutId +
-          "private/rules?fields=name,isActive,description,lastUpdatedBy,lastUpdatedDate,objectCode&filter=(associatedInstanceId = " +
-          blueprintId +
-          ")",
-        header
-      );
-      const actionData = await fetchData(
-        urlWithoutId +
-          "private/actionAssociations?fields=sequence,name,code,isActive,processVersionId&filter=(blueprintId = " +
-          blueprintId +
-          ")",
-        header
-      );
-      const bluePrintDetails = await fetchData(url, header);
-      const standardBlueprintId = bluePrintDetails.standardBlueprintId;
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      let data = await response.json();
-      data = {
-        standardBlueprintId: standardBlueprintId,
-        blueprintId: blueprintId,
-        ...data,
-        visuals: detailedVisuals,
-        rules: rulesData._results,
-        actions: actionData._results,
-      };
-      console.log("data", data);
-      document.getElementById("Out").value = JSON.stringify(data, null, 2);
-    }
-    async function copyBlueprint() {
-      const blueprintId = document.getElementById("BlueprintId").value;
-      const json = document.getElementById("json").value;
-
-      const responseTextArea = document.getElementById("Out");
-      responseTextArea.value = "Loading...";
-
-      if (!json) {
-        alert("Json Data Required");
-        return;
-      }
-
-      url = window.location.origin;
-      document.getElementById("Req").value = "Get";
-      document.getElementById("myLoader").style.display = "block";
-      headers = {};
-
-      const headerKeys = document.querySelectorAll(".header-key");
-      const headerValues = document.querySelectorAll(".header-value");
-      headerKeys.forEach((keyField, index) => {
-        if (keyField.value) {
-          headers[keyField.value] = headerValues[index].value;
-        }
-      });
-
-      const header = new Headers();
-      const sessionCookie = readSessionCookie();
-      header.append("Authtoken", sessionCookie);
-      header.append("Content-Type", "application/json");
-
-      for (const key in headers) {
-        if (headers[key]) {
-          header.append(key, headers[key]);
-        }
-      }
-
-      const jsonString = JSON.stringify(json);
-      const encodedJson = encodeURIComponent(json);
-
-      const response = await fetch(
-        url + "/niku/BlueprintMigrate.groovy?data=" + encodedJson
-      );
-
-      console.log(response);
-      const responseText = await response.text();
-      console.log(responseText);
-
-      responseTextArea.value = responseText;
-      document.getElementById("myLoader").style.display = "none";
-    }
+   headers = {};
+   params = {};
+   ans = "";
+   display = true;
+   blueprintId = null;
+
+   //Main Page
+
+   function hideAllSections() {
+       const sections = document.querySelectorAll('.section');
+       sections.forEach(section => section.style.display = 'none');
+   }
+
+   function showRestSection() {
+       document.getElementById("mainPage").style.display = 'none';
+       document.getElementById("restSection").style.display = 'block';
+   }
+
+   function showBlueprintSection() {
+       document.getElementById("mainPage").style.display = 'none';
+       document.getElementById("blueprintSection").style.display = 'block';
+   }
+
+   function goBackToMain() {
+       document.getElementById("restSection").style.display = 'none';
+       document.getElementById("blueprintSection").style.display = 'none';
+       document.getElementById("mainPage").style.display = 'flex';
+   }
+
+   //REST PAGE
+
+   function copyResponse() {
+       const responseText = document.getElementById("Out");
+       if (responseText.value.trim() === "") {
+           alert("Textarea is empty. Nothing to copy.");
+           return;
+       }
+       responseText.select();
+       responseText.setSelectionRange(0, 99999);
+       try {
+           const successful = document.execCommand("copy");
+           if (successful) {
+               alert("Text copied to clipboard!");
+           } else {
+               alert("Failed to copy text.");
+           }
+       } catch (err) {
+           console.error("Failed to copy text:", err);
+           alert("Failed to copy text.");
+       }
+   }
+
+   function clearResponse() {
+       const allTextAreas = document.querySelectorAll(".out-textarea");
+       allTextAreas.forEach((textarea) => {
+           const isVisible = textarea.offsetParent !== null;
+           if (isVisible) {
+               textarea.value = "";
+           }
+       });
+       const statusBoxes = document.querySelectorAll(".status-box");
+       const visibleBox = Array.from(statusBoxes).find(
+           (box) => box.offsetParent !== null
+       );
+
+       if (visibleBox) {
+           visibleBox.textContent = "";
+           visibleBox.className = "status-box";
+       }
+   }
+
+   function clearRequest() {
+       document.getElementById("headers-container").innerHTML = "";
+       document.getElementById("params-container").innerHTML = "";
+       document.getElementById('input').value = null;
+       document.getElementById('json').value = null;
+   }
+
+   function checkAll(check) {
+       const checkboxes = document.querySelectorAll(".option");
+       checkboxes.forEach((checkbox) => {
+           checkbox.checked = check;
+       });
+   }
+
+   function Prop() {
+       const ID = document.getElementById("BlueprintId").value;
+       url = "private" + "/blueprintData/" + (ID === "" ? blueprintId : ID);
+       console.log("Properties - " + url);
+       input();
+   }
+
+   //Blueprint PAGE
+
+   async function getBlueprints() {
+       url =
+           window.location.origin +
+           "/ppm/rest/v1/private/blueprints/?fields=name,type,blueprintLevel,mode,isDefault,isSystem,publishedBy,lastPublishedDate,lastUpdatedBy,lastUpdatedDate,classifier,_isFavorite&filter=((isSystem+!=+true)+and+(isPrivate+=+false)+and+(mode+=+'PUBLISHED')+and+(blueprintLevel+=+1))&limit=100&tsvParams=(workEffortUnit=hours)";
+       const header = new Headers();
+       const sessionCookie = readSessionCookie();
+       header.append("Authtoken", sessionCookie);
+       header.append("Content-Type", "application/json");
+       for (const key in headers) {
+           if (headers[key]) {
+               header.append(key, headers[key]);
+           }
+       }
+       const response = await fetch(url, {
+           method: "GET",
+           headers: header,
+       });
+       const data = await response.json();
+       const results = data._results || [];
+       console.log("Results: ", results);
+       const selectBlueprintElement = document.getElementById("selectBlueprint");
+       selectBlueprintElement.innerHTML = "";
+       const defaultOption = document.createElement("option");
+       defaultOption.value = "";
+       defaultOption.disabled = true;
+       defaultOption.selected = true;
+       defaultOption.textContent = "Select a blueprint";
+       selectBlueprintElement.appendChild(defaultOption);
+       results.forEach((eachBlueprint) => {
+           const newOption = document.createElement("option");
+           newOption.value = eachBlueprint._internalId;
+           newOption.text = eachBlueprint.name;
+           selectBlueprintElement.appendChild(newOption);
+       });
+
+       console.log(`Getting blueprints ${data}`);
+     url = "";
+   }
+
+   getBlueprints();
+
+   function getBlueprintId(event) {
+       blueprintId = event.target.value;
+       console.log(blueprintId);
+   }
+
+   function hideRestContainer() {
+       const restBody = document.getElementById("Body")
+       const headers = document.getElementById("Headers")
+       const params = document.getElementById("Params")
+       const hideButton = document.getElementById("hideBtn")
+       restBody.style.display = "none"
+       headers.style.display = "none"
+       params.style.display = "none"
+       hideButton.style.display = "none"
+
+   }
+
+   function Visuals() {
+       const ID = document.getElementById("BlueprintId").value;
+       url =
+           "private/availableVisuals?filter=(( blueprintType = PROJECT ) and ( category = VISUAL ) and ( blueprintId = " +
+           (ID === "" ? blueprintId : ID) +
+           " ))";
+       console.log("Visuals - " + url);
+       input();
+   }
+
+   function Rules() {
+       const ID = document.getElementById("BlueprintId").value;
+       url =
+           "private/rules?fields=name,isActive,description,lastUpdatedBy,lastUpdatedDate,objectCode&filter=(associatedInstanceId = " +
+           (ID === "" ? blueprintId : ID) +
+           ")";
+       console.log("Rules - " + url);
+       input();
+   }
+
+   function Actions() {
+       const ID = document.getElementById("BlueprintId").value;
+       url =
+           "private/actionAssociations?fields=sequence,name,code,isActive,processVersionId&filter=(blueprintId = " +
+           (ID === "" ? blueprintId : ID) +
+           ")";
+       console.log("Properties - " + url);
+       input();
+   }
+
+   function fetchBlueprintById() {
+       const ID = blueprintId;
+       if (!ID) alert("Please enter the ID for fetching Blueprint");
+       if (!document.getElementById("clarity").checked)
+           alert("Please select Default-Path to access blueprints!");
+       url = "private/blueprints/" + ID;
+       document.getElementById("Req").value = "Get";
+       console.log(url);
+       input();
+   }
+
+   function blueprints() {
+       if (!document.getElementById("clarity").checked)
+           alert("Please select Default-Path to access blueprints!");
+       url = "private/blueprints?fields=name,";
+       const options = Array.from(
+           document.querySelectorAll('input[type="checkbox"]:checked')
+       );
+       const filteredOptions = options.filter(
+           (option) => option.id !== "clarity"
+       );
+       console.log(options);
+       const selected = Array.from(filteredOptions).map(
+           (option) => option.value
+       );
+       url = url + selected.join(", ");
+       url = url + "&limit=100";
+       console.log(url + "-----Blueprints All selected ");
+       input();
+   }
+
+   function openTab(tabId) {
+       const tabContents = document.querySelectorAll(".tab-content");
+       const runButton = document.getElementById("runButton");
+       runButton.style.display = "none";
+       tabContents.forEach((content) => (content.style.display = "none"));
+       const responseTextArea = document.getElementById("Out");
+       responseTextArea.value = "";
+       const selectedTab = document.getElementById(tabId);
+       if (selectedTab) {
+           selectedTab.style.display = "block";
+           const hideButton = document.getElementById("hideBtn")
+           hideButton.style.display = "block";
+       }
+   }
+
+   function readSessionCookie() {
+       const name = "sessionId=";
+       const getCookie = decodeURIComponent(document.cookie);
+       const ca = getCookie.split(";");
+       for (let i = 0; i < ca.length; i++) {
+           let c = ca[i];
+           while (c.charAt(0) == " ") {
+               c = c.substring(1);
+           }
+           if (c.indexOf(name) == 0) {
+               return c.substring(name.length, c.length);
+           }
+       }
+       return "";
+   }
+
+   function makeRequest(method) {
+       let body = null;
+       if (method !== "GET") {
+           body = document.getElementById("json").value;
+           if (body) {
+               try {
+                   body = JSON.parse(body);
+               } catch (e) {
+                   console.error("Invalid JSON format");
+                   body = null;
+               }
+           }
+       }
+       const header = new Headers();
+       const sessionCookie = readSessionCookie();
+       header.append("Authtoken", sessionCookie);
+       header.append("Content-Type", "application/json");
+       for (const key in headers) {
+           if (headers[key]) {
+               header.append(key, headers[key]);
+           }
+       }
+
+       fetch(url, {
+           method: method,
+           headers: header,
+           body: method !== "GET" && body ? JSON.stringify(body) : null,
+       })
+           .then((response) => {
+               if (!response.ok) {
+                   return response.json().then((errorData) => {
+                       const {
+                           resourceId = null,
+                           httpStatus = response.status,
+                           errorMessage,
+                           errorCode,
+                       } = errorData;
+                       const formattedError = {
+                           resourceId,
+                           httpStatus,
+                           errorMessage,
+                           errorCode,
+                       };
+                       console.log("Error response data:", formattedError);
+                       updateStatusBox(formattedErro?.httpStatus);
+                       return formattedError;
+                   });
+               }
+               const contentType = response.headers.get("content-type");
+               if (contentType && contentType.includes("application/json")) {
+                   updateStatusBox(200);
+                   return response.json();
+               }
+           })
+           .then((data) => {
+               updateStatusBox(200)
+               updateResponse(JSON.stringify(
+                   data,
+                   null,
+                   4
+               ));
+               ans = JSON.stringify(data, null, 4);
+           })
+           .catch((error) => {
+               console.error("Fetch error:", error);
+               document.getElementById("Out").innerText =
+                   "Error: " + error.message;
+               const errored_output = {
+                   resourceId: null,
+                   httpStatus: 400,
+                   errorMessage: error.message,
+                   errorCode: "FETCH_ERROR",
+               };
+               updateStatusBox(errored_output.httpStatus)
+               updateResponse(JSON.stringify(
+                   errored_output,
+                   null,
+                   4
+               ));
+           });
+   }
+
+   function updateStatusBox(statusCode) {
+       const boxes = document.querySelectorAll(".status-box");
+       const visibleBox = Array.from(boxes).find(
+           (box) => box.offsetParent !== null
+       );
+
+       if (!visibleBox) return;
+
+
+       visibleBox.className = "status-box";
+       visibleBox.textContent = `Status: ${statusCode}`;
+
+
+       if (statusCode >= 200 && statusCode < 300) {
+           visibleBox.classList.add("status-success");
+       } else if (statusCode >= 400 && statusCode < 500) {
+           visibleBox.classList.add("status-client-error");
+       } else if (statusCode >= 500) {
+           visibleBox.classList.add("status-server-error");
+       }
+   }
+
+   function input() {
+
+       if (url === "") url = document.getElementById("input").value;
+
+       if (url === "") alert("Please enter URL.");
+
+       const checkbox = document.getElementById("clarity");
+       if (checkbox.checked)
+           url = window.location.origin + "/ppm/rest/v1/" + url;
+       headers = {};
+       const headerKeys = document.querySelectorAll(".header-key");
+       const headerValues = document.querySelectorAll(".header-value");
+       headerKeys.forEach((keyField, index) => {
+           if (keyField.value) {
+               headers[keyField.value] = headerValues[index].value;
+           }
+       });
+
+       params = {};
+       const paramKeys = document.querySelectorAll(".param-key");
+       const paramValues = document.querySelectorAll(".param-value");
+       paramKeys.forEach((keyField, index) => {
+           if (keyField.value) {
+               if (params[keyField.value]) {
+                   params[keyField.value] += "," + paramValues[index].value;
+               } else {
+                   params[keyField.value] = paramValues[index].value;
+               }
+           }
+       });
+
+       const paramString = new URLSearchParams(params).toString();
+       if (paramString) {
+           url += "?" + paramString;
+       }
+
+       console.log("url entered: " + url);
+       console.log("Headers entered: ", headers);
+       console.log("Params entered: ", params);
+
+       getSelectedOption();
+       url = "";
+   }
+
+   function getSelectedOption() {
+       const selectElement = document.getElementById("Req");
+       const selectedValue = selectElement.value;
+       console.log("Request Entered: " + selectedValue);
+
+       if (selectedValue === "Get") makeRequest("GET");
+       if (selectedValue === "Post") makeRequest("POST");
+       if (selectedValue === "Patch") makeRequest("PATCH");
+       if (selectedValue === "Put") makeRequest("PUT");
+       if (selectedValue === "Delete") makeRequest("DELETE");
+   }
+
+   function addHeaderField() {
+       const headersContainer = document.getElementById("headers-container");
+       const headerField = document.createElement("div");
+       headerField.classList.add("field-container");
+       headerField.innerHTML = `
+                                     <input type="text" placeholder="key" class="header-key">
+                                     <input type="text" placeholder="value" class="header-value">
+                                     <button class="remove-button" onclick="removeField(this, 'headers-container')">Remove</button>
+                                     `;
+       headersContainer.appendChild(headerField);
+   }
+
+   function addParamField() {
+       const paramsContainer = document.getElementById("params-container");
+       const paramField = document.createElement("div");
+       paramField.classList.add("field-container");
+       paramField.innerHTML = `
+                                   <input type="text" placeholder="key" class="param-key">
+                                   <input type="text" placeholder="value" class="param-value">
+                                   <button class="remove-button" onclick="removeField(this, 'params-container')">Remove</button>
+                                   `;
+       paramsContainer.appendChild(paramField);
+   }
+
+   function removeField(button, containerId) {
+       const container = document.getElementById(containerId);
+       container.removeChild(button.parentElement);
+   }
+
+   // function download() {
+   //     try {
+   //         if (typeof ans === "undefined" || ans === null) {
+   //             throw new Error("The 'ans' variable is not defined or is null.");
+   //         }
+
+   //         const json = ans;
+   //         const blob = new Blob([json], { type: "application/json" });
+
+   //         if (window.URL && window.URL.createObjectURL) {
+   //             const url = window.URL.createObjectURL(blob);
+
+   //             const a = document.createElement("a");
+   //             a.href = url;
+   //             a.download = "data.json";
+   //             document.body.appendChild(a);
+   //             a.click();
+
+   //             window.URL.revokeObjectURL(url);
+   //             document.body.removeChild(a);
+   //         } else {
+   //             throw new Error("URL.createObjectURL is not supported.");
+   //         }
+   //     } catch (error) {
+   //         console.error("Download error:", error);
+   //     }
+   // }
+
+   async function fetchData(visualUrl, header) {
+       try {
+           const response = await fetch(visualUrl, {
+               method: "GET",
+               headers: header,
+           });
+
+           if (!response.ok) {
+               throw new Error(
+                   `Error fetching visual details: ${response.status}`
+               );
+           }
+
+           const visualData = await response.json();
+           return visualData;
+       } catch (error) {
+           console.error("Error fetching visual details:", error);
+           return null;
+       }
+   }
+
+   async function fetchBlueprintDetails() {
+       if (!blueprintId) {
+           alert("Please enter the Blueprint ID to fetch details.");
+           return;
+       }
+       url =
+           window.location.origin +
+           "/ppm/rest/v1/private/blueprints/" +
+           blueprintId;
+       urlWithoutId = window.location.origin + "/ppm/rest/v1/";
+       document.getElementById("Req").value = "Get";
+
+       headers = {};
+       const headerKeys = document.querySelectorAll(".header-key");
+       const headerValues = document.querySelectorAll(".header-value");
+       headerKeys.forEach((keyField, index) => {
+           if (keyField.value) {
+               headers[keyField.value] = headerValues[index].value;
+           }
+       });
+       params = {};
+       const paramKeys = document.querySelectorAll(".param-key");
+       const paramValues = document.querySelectorAll(".param-value");
+       paramKeys.forEach((keyField, index) => {
+           if (keyField.value) {
+               if (params[keyField.value]) {
+                   params[keyField.value] += "," + paramValues[index].value;
+               } else {
+                   params[keyField.value] = paramValues[index].value;
+               }
+           }
+       });
+       const paramString = new URLSearchParams(params).toString();
+       if (paramString) {
+           url += "?" + paramString;
+       }
+
+       const header = new Headers();
+       const sessionCookie = readSessionCookie();
+       header.append("Authtoken", sessionCookie);
+       header.append("Content-Type", "application/json");
+
+       for (const key in headers) {
+           if (headers[key]) {
+               header.append(key, headers[key]);
+           }
+       }
+
+       const response = await fetch(
+           urlWithoutId + "private/blueprintData/" + blueprintId,
+           {
+               method: "GET",
+               headers: header,
+           }
+       );
+
+       const visualData = await fetchData(url + "/visuals/", header);
+
+       const detailedVisuals = await Promise.all(
+           visualData._results.map(async (visual) => {
+               const visualDetails = await fetchData(
+                   url + "/visuals/" + visual._internalId,
+                   header
+               );
+               return visualDetails;
+           })
+       );
+
+       const rulesData = await fetchData(
+           urlWithoutId +
+           "private/rules?fields=name,isActive,description,lastUpdatedBy,lastUpdatedDate,objectCode&filter=(associatedInstanceId = " +
+           blueprintId +
+           ")",
+           header
+       );
+       const actionData = await fetchData(
+           urlWithoutId +
+           "private/actionAssociations?fields=sequence,name,code,isActive,processVersionId&filter=(blueprintId = " +
+           blueprintId +
+           ")",
+           header
+       );
+       const bluePrintDetails = await fetchData(url, header);
+       const standardBlueprintId = bluePrintDetails.standardBlueprintId;
+       if (!response.ok) {
+           throw new Error(`HTTP error! Status: ${response.status}`);
+       }
+       let data = await response.json();
+       data = {
+           standardBlueprintId: standardBlueprintId,
+           blueprintId: blueprintId,
+           ...data,
+           visuals: detailedVisuals,
+           rules: rulesData._results,
+           actions: actionData._results,
+       };
+       console.log("data", data);
+       updateResponse(JSON.stringify(data, null, 2));
+   }
+
+   async function copyBlueprint(buttonElement) {
+     const parent = buttonElement.closest(".tab-content");
+       //const blueprintId = document.getElementById("BlueprintId").value;
+       //const json = document.getElementById("json").value;
+       const jsonTextareas = document.querySelectorAll("#json");
+     console.log(jsonTextareas)
+       const visibleJsonTextarea = Array.from(jsonTextareas).find(
+         (textarea) => textarea.offsetParent !== null
+        );
+     console.log(visibleJsonTextarea)
+
+       const outputTextareas = document.querySelectorAll(".out-textarea");
+       const visibleOutputTextarea = Array.from(outputTextareas).find(
+           (textarea) => textarea.offsetParent !== null
+       );
+       if (visibleOutputTextarea) {
+           visibleOutputTextarea.value = "Loading...";
+       }
+
+      const json = visibleJsonTextarea ? visibleJsonTextarea.value : null;
+      const methodTypeText = parent.querySelector(".run-blueprint-btn")?.textContent;
+      // const json = parent.querySelector(".json-input")?.value;
+       console.log("MethodType", methodTypeText)
+      const methodType = methodTypeText === "Create Blueprint" ? "Create" : "Update"
+      console.log(methodType)
+
+       if (!json) {
+           alert("Json Data Required");
+           return;
+       }
+
+       url = window.location.origin;
+       document.getElementById("Req").value = "Get";
+       headers = {};
+
+       const headerKeys = document.querySelectorAll(".header-key");
+       const headerValues = document.querySelectorAll(".header-value");
+       headerKeys.forEach((keyField, index) => {
+           if (keyField.value) {
+               headers[keyField.value] = headerValues[index].value;
+           }
+       });
+
+       const header = new Headers();
+       const sessionCookie = readSessionCookie();
+       header.append("Authtoken", sessionCookie);
+       header.append("Content-Type", "application/json");
+
+       for (const key in headers) {
+           if (headers[key]) {
+               header.append(key, headers[key]);
+           }
+       }
+
+       const jsonString = JSON.stringify(json);
+       const encodedJson = encodeURIComponent(json);
+
+       const response = await fetch(
+           url + "/niku/BlueprintMigrate.groovy?data=" + encodedJson + "&method=" + methodType
+       );
+
+       console.log(response);
+       const responseText = await response.text();
+       updateResponse(responseText, null, 2);
+       url = "";
+       console.log(responseText);
+       //responseTextArea.value = responseText;
+   }
+
+   function EditNameBlue() {
+       const name = document.getElementById("NameBlue").value;
+       const ID = document.getElementById("BlueprintIdRename").value;
+       const bodyBlue =
+           '{"d": [{"_internalId": ' + ID + ', "name": "' + name + '"}]}';
+
+       console.log(bodyBlue + " - Body");
+       url = "private/blueprints";
+
+       document.getElementById("Req").value = "Put";
+       document.getElementById("json").value = bodyBlue;
+
+       document.getElementById("headkey").value = "x-api-force-patch";
+       document.getElementById("headval").value = "true";
+
+       console.log(document.getElementById("json").value);
+
+       input();
+
+       document.getElementById("headkey").value = "";
+       document.getElementById("headval").value = "";
+   }
+
+
+   function getBlueprintId(event) {
+     blueprintId = event.target.value;
+     console.log(blueprintId);
+   }
+
+
+   function showCopyBlueprint(actionType) {
+       const getAllBlueprintContainer = document.getElementById('getAllBlueprintContainer');
+       const blueprintContainer = document.getElementById('Blue');
+       const blueprintBody = document.getElementById('blueprintBody');
+       const renameBlueprintContainer = document.getElementById('BlueprintRenameContainer');
+       const hideBlueprintButton = document.getElementById('hideBlueprintButton');
+       hideBlueprintButton.style.display = "inline-block"
+       blueprintBody.style.display = 'block';
+       getAllBlueprintContainer.style.display = 'none';
+       blueprintContainer.style.display = "none"
+       renameBlueprintContainer.style.display = "none"
+       const blueprintButton = document.getElementById("runButtonBlueprint");
+       blueprintButton.textContent = `${actionType} Blueprint`;
+   }
+
+   function getAllBlueprint() {
+       const container = document.getElementById('getAllBlueprintContainer');
+       const blueprintBody = document.getElementById('blueprintBody');
+       const blueprintContainer = document.getElementById('Blue');
+       const renameBlueprintContainer = document.getElementById('BlueprintRenameContainer');
+       const hideBlueprintButton = document.getElementById('hideBlueprintButton');
+       hideBlueprintButton.style.display = "inline-block"
+       blueprintContainer.style.display = "none"
+       renameBlueprintContainer.style.display = "none"
+       if (container.style.display === 'none') {
+           container.style.display = 'block';
+           blueprintBody.style.display = 'none'
+       }
+   }
+
+   function getBlueprint() {
+       const blueprintContainer = document.getElementById('Blue');
+       const container = document.getElementById('blueprintBody');
+       const getAllBlueprintContainer = document.getElementById('getAllBlueprintContainer');
+       const renameBlueprintContainer = document.getElementById('BlueprintRenameContainer');
+       const hideBlueprintButton = document.getElementById('hideBlueprintButton');
+       hideBlueprintButton.style.display = "inline-block"
+       blueprintContainer.style.display = 'block';
+       container.style.display = "none"
+       getAllBlueprintContainer.style.display = "none"
+       renameBlueprintContainer.style.display = "none"
+   }
+
+   function renameBlueprint() {
+       const blueprintContainer = document.getElementById('Blue');
+       const container = document.getElementById('blueprintBody');
+       const getAllBlueprintContainer = document.getElementById('getAllBlueprintContainer');
+       const renameBlueprintContainer = document.getElementById('BlueprintRenameContainer');
+       const hideBlueprintButton = document.getElementById('hideBlueprintButton');
+       hideBlueprintButton.style.display = "inline-block"
+       blueprintContainer.style.display = 'none';
+       container.style.display = "none"
+       getAllBlueprintContainer.style.display = "none"
+       renameBlueprintContainer.style.display = "block"
+   }
+
+   function hideBlueprintContainer() {
+       const blueprintContainer = document.getElementById('Blue');
+       const container = document.getElementById('blueprintBody');
+       const getAllBlueprintContainer = document.getElementById('getAllBlueprintContainer');
+       const renameBlueprintContainer = document.getElementById('BlueprintRenameContainer');
+       const hideBlueprintButton = document.getElementById('hideBlueprintButton');
+       blueprintContainer.style.display = 'none';
+       container.style.display = "none"
+       getAllBlueprintContainer.style.display = "none"
+       renameBlueprintContainer.style.display = "none"
+       hideBlueprintButton.style.display = "none"
+   }
+
+   function updateResponse(response) {
+       document.querySelectorAll(".out-textarea").forEach((el) => {
+           if (el.offsetParent !== null) {
+               el.value = response;
+           }
+       });
+   }
+
+   document.querySelectorAll(".run-blueprint-btn").forEach(button => {
+       button.addEventListener("click", () => copyBlueprint(button));
+   });
 </script>
 </body>
+
 </html>
