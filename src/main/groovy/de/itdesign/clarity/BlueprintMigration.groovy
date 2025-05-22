@@ -22,16 +22,20 @@ class BlueprintMigration {
     }
 
     def getAvailableVisualIdFromDB(String visualId) {
-        String lastThreeDigits = visualId.takeRight(3)
         String availableVisualId = null
         Sql sql
+
         try {
             sql = getDBConnection()
-            availableVisualId = sql.firstRow("SELECT available_visual_id FROM BLP_BLUEPRINT_VISUALS WHERE SUBSTR(available_visual_id, -3) = ?", [lastThreeDigits])?.available_visual_id
-            println("query : ${availableVisualId}")
+            availableVisualId = sql.firstRow(
+                    "SELECT available_visual_id FROM BLP_BLUEPRINT_VISUALS WHERE available_visual_id = ?",
+                    [visualId]
+            )?.available_visual_id
+            println("Query result for visualId ${visualId}: ${availableVisualId}")
         } catch (Exception e) {
             println("Error while fetching visualId from DB: ${e.message}", e)
         }
+
         return availableVisualId
     }
 
@@ -109,7 +113,7 @@ class BlueprintMigration {
                     resp = rest.DELETE(deleteUrl)
                     println(resp.jsonMap())
                 } catch (Exception e) {
-                    println("Error deleting module with ID ${moduleId}: ${e.message}")
+                    println("Error delposteting module with ID ${moduleId}: ${e.message}")
                 }
             }
         } catch (Exception e) {
@@ -123,8 +127,18 @@ class BlueprintMigration {
         RestResponse resp
         String urlString = "private/blueprints/${blueprintInternalId}/visuals"
 
+        Set<Integer> usedSequences = new HashSet<>()
+
         modules.each { module ->
             println("Processing module: ${module.label}")
+
+            int sequence = module.sequence
+            if (usedSequences.contains(sequence)) {
+                println("Skipping module '${module.label}' with duplicate sequence: ${sequence}")
+                return
+            } else {
+                usedSequences.add(sequence)
+            }
 
             println("Module visual ID: ${module.visualId.toString()}")
             String availableVisualId = getAvailableVisualIdFromDB(module.visualId.toString())
@@ -135,7 +149,7 @@ class BlueprintMigration {
 
             Map<String, Object> moduleBody = [
                     type            : module.type,
-                    sequence        : module.sequence,
+                    sequence        : sequence,
                     attributeName   : module.attributeName,
                     label           : module.label,
                     visualId        : visualId,
@@ -152,6 +166,7 @@ class BlueprintMigration {
             }
         }
     }
+
 
     def postVisualsToBlueprint(String blueprintInternalId, List<Map<String, Object>> visuals, ClarityRestClient rest) {
         RestResponse resp
