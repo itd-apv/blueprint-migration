@@ -41,6 +41,13 @@
        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
    }
 
+         .support-version {
+         position: absolute;
+           top: 40px;
+           right: 400px;
+
+         }
+
    .main-page-container {
        display: flex;
        flex-direction: column;
@@ -379,6 +386,7 @@
 <body class="page-body">
 <!-- Main page content with buttons -->
 <div id="mainPage" class="Container">
+    <p class="support-version">Support Version: 16.2.3.1153 01 34</p>
     <div class="main-page-container">
         <h2 class="main-page-heading">Choose Operation Type</h2>
         <div>
@@ -671,14 +679,18 @@
 
    //REST PAGE
 
+
+
    function copyResponse() {
-       const responseText = document.getElementById("Out");
-       if (responseText.value.trim() === "") {
+       const responseTextAreas = document.querySelectorAll(".out-textarea");
+       const visibleTextarea = Array.from(responseTextAreas).find(textarea => textarea.offsetParent !== null);
+      // const responseText = document.getElementById("out-textarea");
+       if (visibleTextarea.value.trim() === "") {
            alert("Textarea is empty. Nothing to copy.");
            return;
        }
-       responseText.select();
-       responseText.setSelectionRange(0, 99999);
+       visibleTextarea.select();
+       visibleTextarea.setSelectionRange(0, 99999);
        try {
            const successful = document.execCommand("copy");
            if (successful) {
@@ -737,7 +749,7 @@
    async function getBlueprints() {
        url =
            window.location.origin +
-           "/ppm/rest/v1/private/blueprints/?fields=name,type,blueprintLevel,mode,isDefault,isSystem,publishedBy,lastPublishedDate,lastUpdatedBy,lastUpdatedDate,classifier,_isFavorite&filter=((isSystem+!=+true)+and+(isPrivate+=+false)+and+(mode+=+'PUBLISHED')+and+(blueprintLevel+=+1))&limit=100&tsvParams=(workEffortUnit=hours)";
+           "/ppm/rest/v1/private/blueprints/?fields=name,type,blueprintLevel,mode,isDefault,isSystem,publishedBy,lastPublishedDate,lastUpdatedBy,lastUpdatedDate,classifier,_isFavorite&filter=((isPrivate+=+false)+and+(mode+=+'PUBLISHED')+and+(blueprintLevel+=+1))&limit=100&tsvParams=(workEffortUnit=hours)";
        const header = new Headers();
        const sessionCookie = readSessionCookie();
        header.append("Authtoken", sessionCookie);
@@ -1290,6 +1302,7 @@
        console.log(responseText);
        //responseTextArea.value = responseText;
    }
+
 
    function EditNameBlue() {
        const name = document.getElementById("NameBlue").value;

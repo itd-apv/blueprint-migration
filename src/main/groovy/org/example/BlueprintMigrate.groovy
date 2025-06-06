@@ -93,9 +93,13 @@ try {
                 blueprintMigration.processTemplateSection(copiedBlueprintInternalId, parsedData.details.templateSections, sectionIdsMap, rest)
 
                 parsedData.rules.each { rule ->
-                    blueprintMigration.postRule(copiedBlueprintInternalId, rule, rest)
-                }
+                    def ruleId = rule._internalId?.toString()?.isInteger() ? rule._internalId.toInteger() : 0
+                    if (ruleId >= 5000000) {
+                        blueprintMigration.postRule(copiedBlueprintInternalId, rule, rest)
+                    } else {
 
+                    }
+                }
                 Map<String, Object> putData = [
                         mode: "PUBLISHED"
                 ]
